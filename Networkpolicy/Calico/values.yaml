@@ -1,0 +1,6 @@
+installation:
+  kubernetesProvider: EKS
+  controlPlaneTolerations:
+    - key: Management
+      value: Tools
+      effect: NoSchedule

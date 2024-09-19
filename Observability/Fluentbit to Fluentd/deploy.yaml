@@ -1,0 +1,164 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-a
+  namespace: app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: service-a
+  template:
+    metadata:
+      labels:
+        app: service-a
+    spec:
+      containers:
+        - name: service-a
+          image: ${data.aws_caller_identity.current.account_id}.dkr.ecr.ap-northeast-2.amazonaws.com/service:a
+          volumeMounts:
+            - name: applog
+              mountPath: /log
+        - name: fluent-bit
+          image: fluent/fluent-bit:latest
+          volumeMounts:
+            - name: applog
+              mountPath: /var/log/service-a/
+              readOnly: true
+            - name: fluent-bit-config
+              mountPath: /fluent-bit/etc
+      volumes:
+        - name: applog
+          emptyDir: {}
+        - name: fluent-bit-config
+          configMap:
+            name: fluent-bit-config
+      restartPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-b
+  namespace: app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: service-b
+  template:
+    metadata:
+      labels:
+        app: service-b
+    spec:
+      containers:
+        - name: service-b
+          image: ${data.aws_caller_identity.current.account_id}.dkr.ecr.ap-northeast-2.amazonaws.com/service:b
+          volumeMounts:
+            - name: applog
+              mountPath: /log
+        - name: fluent-bit
+          image: fluent/fluent-bit:latest
+          volumeMounts:
+            - name: applog
+              mountPath: /var/log/service-b/
+              readOnly: true
+            - name: fluent-bit-config
+              mountPath: /fluent-bit/etc
+      volumes:
+        - name: applog
+          emptyDir: {}
+        - name: fluent-bit-config
+          configMap:
+            name: fluent-bit-config
+      restartPolicy: Always
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-c
+  namespace: app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: service-c
+  template:
+    metadata:
+      labels:
+        app: service-c
+    spec:
+      containers:
+        - name: service-c
+          image: ${data.aws_caller_identity.current.account_id}.dkr.ecr.ap-northeast-2.amazonaws.com/service:c
+          volumeMounts:
+            - name: applog
+              mountPath: /log
+        - name: fluent-bit
+          image: fluent/fluent-bit:latest
+          volumeMounts:
+            - name: applog
+              mountPath: /var/log/service-c/
+              readOnly: true
+            - name: fluent-bit-config
+              mountPath: /fluent-bit/etc
+      volumes:
+        - name: applog
+          emptyDir: {}
+        - name: fluent-bit-config
+          configMap:
+            name: fluent-bit-config
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  namespace: app
+data:
+  fluent-bit.conf: |-
+    [SERVICE]
+        HTTP_Server    On
+        HTTP_Listen    0.0.0.0
+        HTTP_PORT      2020
+        Flush          1
+        Daemon         Off
+        Log_Level      debug
+
+    [INPUT]
+        Name              tail
+        Tag               service-a
+        Path              /var/log/service-a/*
+        Refresh_Interval  5
+        Rotate_Wait       10
+
+    [INPUT]
+        Name              tail
+        Tag               service-b
+        Path              /var/log/service-b/*
+        Refresh_Interval  5
+        Rotate_Wait       10
+
+    [INPUT]
+        Name              tail
+        Tag               service-c
+        Path              /var/log/service-c/*
+        Refresh_Interval  5
+        Rotate_Wait       10
+
+    [OUTPUT]
+        Name              forward
+        Match             service-a
+        Host              fluentd-svc.fluentd.svc.cluster.local
+        Port              24224
+
+    [OUTPUT]
+        Name              forward
+        Match             service-b
+        Host              fluentd-svc.fluentd.svc.cluster.local
+        Port              24224
+
+    [OUTPUT]
+        Name              forward
+        Match             service-c
+        Host              fluentd-svc.fluentd.svc.cluster.local
+        Port              24224

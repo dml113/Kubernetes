@@ -1,0 +1,19 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  namespace: dev
+  name: foo-webapp-policy
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: foo-webapp
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: bar-webapp
+      ports:
+        - protocol: TCP
+          port: 5000

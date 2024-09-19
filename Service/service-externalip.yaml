@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubia-svc-externalip # service 이름
+  namespace: wsscc2021 # service가 속할 namespace
+spec:
+  type: ExternalName
+  externalName: www.google.com
+  ports:
+    - protocol: TCP
+      port: 80 # 서비스의 포트번호
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: kubia-svc-externalip # endpoints이름은 service이름과 동일해야합니다.
+  namespace: wsscc2021 # endpoints가 속할 namespace
+subsets:
+  - addresses: # 외부 서버의 IP
+    - ip: 8.8.8.8
+    - ip: 216.58.220.132
+    ports:
+    - port: 80 # 외부 서버의 포트번호

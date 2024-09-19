@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubia-svc-headless # service 이름
+  namespace: wsscc2021 # service가 속할 namespace
+spec:
+  clusterIP: None 
+  # headless service를 생성합니다.
+  # nslookup <service>.<namespace>.svc.cluster.local 를 통해 각 pod의 IP를 얻을 수 있습니다.
+  selector:
+    app.kubernetes.io/name: kubia
+    # service의 파드 셀렉터는 엔드포인트 목록을 만드는 데 사용됩니다.
+  ports:
+    - protocol: TCP
+      port: 80 # 서비스의 포트번호
+      targetPort: 8080 # pod의 포트번호

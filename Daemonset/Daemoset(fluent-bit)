@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluent-bit
+  namespace: default
+  labels:
+    app: fluent-bit
+spec:
+  selector:
+    matchLabels:
+      app: fluent-bit
+  template:
+    metadata:
+      labels:
+        app: fluent-bit
+    spec:
+      serviceAccountName: fluent-bit
+      nodeSelector:
+        app: other
+      containers:
+      - name: fluent-bit
+        image: fluent/fluent-bit:latest
+        resources:
+          limits:
+            memory: 500Mi
+            cpu: 200m
+        volumeMounts:
+        - name: logdir
+          mountPath: /var/log/pods
+        - name: fluent-bit-config
+          mountPath: /fluent-bit/etc/
+        
+        env:
+        - name: AWS_REGION
+          value: "ap-northeast-2"
+        - name: OPENSEARCH_URL
+          value: "search-skills-openserach-domain-qzedj6pvvxfojsl3k4a72og7fu.ap-northeast-2.es.amazonaws.com"
+      volumes:
+      - name: logdir
+        hostPath:
+          path: /var/log/pods
+      - name: fluent-bit-config
+        configMap:
+          name: fluent-bit-config

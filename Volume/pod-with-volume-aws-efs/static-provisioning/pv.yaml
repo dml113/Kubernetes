@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: efs-pv
+spec:
+  capacity:
+    storage: 5Gi  # EFS는 용량 제한이 없지만, PVC를 생성할 때는 K8S의 정책에 따라 반드시 제한을 설정해야 함.
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sc  # storageclass name
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: <efs id> # ex. fs-e8a95a42

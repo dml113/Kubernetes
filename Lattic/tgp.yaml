@@ -1,0 +1,18 @@
+apiVersion: application-networking.k8s.aws/v1alpha1
+kind: TargetGroupPolicy
+metadata:
+  name: wsc2024-lattice-tgp
+  namespace: wsc2024
+spec:
+  targetRef:
+    group: ""
+    kind: Service
+    name: customer-svc	
+  healthCheck:
+    path: /healthcheck
+    intervalSeconds: 30
+    timeoutSeconds: 5
+    healthyThresholdCount: 3
+    unhealthyThresholdCount: 3
+    protocol: HTTP
+    port: 8080

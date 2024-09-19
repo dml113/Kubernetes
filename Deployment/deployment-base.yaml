@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubia
+  namespace: dev
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: "25%" # integer(5) or percent(10%), default is 25%
+      maxUnavailable: "25%" # integer(5) or percent(10%), default is 25%
+  progressDeadlineSeconds: 600 # default is 600
+  minReadySeconds: 0 # default is 0
+  selector:
+    matchLabels: # https://kubernetes.io/ko/docs/concepts/overview/working-with-objects/common-labels/
+      app.kubernetes.io/name: kubia
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: kubia
+    spec:
+      # serviceAccountName: foo-webapp
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: "topology.kubernetes.io/zone"
+          whenUnsatisfiable: "ScheduleAnyway" # "DoNotSchedule", "ScheduleAnyway"
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: kubia
+      tolerations:
+        - key: "Management"
+          operator: "Equal"       # "Equal", "Exists"
+          value: "Apps"           # operator가 "Equal"인 경우에만 사용합니다.
+          effect: "NoSchedule"    # "NoSchedule", "PreferNoSchedule", "NoExecute"
+      containers:
+        - image: luksa/kubia:2.0
+          name: webapp
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 820m
+              memory: 1000Mi
+            requests:
+              cpu: 820m
+              memory: 1000Mi
+          startupProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 0 # default 0, 어플리케이션이 시작될때까지 기다리는 시간입니다.
+            periodSeconds: 5 # default 10, Healthcheck 요청을 보내는 주기(Interval)입니다.
+            timeoutSeconds: 3 # default 1, Healthcheck 요청의 타임아웃 값입니다.
+            failureThreshold: 12 # default 3, 3번 이상 실패하면 파드를 재시작합니다.
+            successThreshold: 1 # default 1, 1번 이상 성공하면 Running 상태로 넘어갑니다.      
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 0 # default 0, 어플리케이션이 시작될때까지 기다리는 시간입니다.
+            periodSeconds: 5 # default 10, Healthcheck 요청을 보내는 주기(Interval)입니다.
+            timeoutSeconds: 3 # default 1, Healthcheck 요청의 타임아웃 값입니다.
+            failureThreshold: 3 # default 3, n번 이상 실패하면 요청을 받지 않습니다.
+            successThreshold: 1 # default 1, n번 이상 성공하면 요청을 받습니다.
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 0 # default 0, 어플리케이션이 시작될때까지 기다리는 시간입니다.
+            periodSeconds: 5 # default 10, Healthcheck 요청을 보내는 주기(Interval)입니다.
+            timeoutSeconds: 3 # default 1, Healthcheck 요청의 타임아웃 값입니다.
+            failureThreshold: 6 # default 3, 3번 이상 실패하면 파드를 재시작합니다.
+            successThreshold: 1 # default 1, 1번 이상 성공하면 Running 상태로 넘어갑니다.
+          lifecycle:
+            # postStart:
+            #   exec:
+            #     command: ["/bin/sh","-c","sleep 100"]
+            preStop:
+              exec:
+                command: ["/bin/sh","-c","sleep 30"]
+      terminationGracePeriodSeconds: 60

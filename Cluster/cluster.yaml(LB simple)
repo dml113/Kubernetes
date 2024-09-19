@@ -1,0 +1,59 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: warm-eks-clusterA
+  version: "1.29"
+  region: ap-northeast-2
+
+vpc:
+  subnets:
+    public:
+      public-a: { id: subnet-08feeab18840a1140 }
+      public-b: { id: subnet-074ce9b3bf2d720e9 }
+    private:
+      private-a: { id: subnet-097bce92266f6b040 }
+      private-b: { id: subnet-0a7b044813cf7a8f5 }
+      
+iamIdentityMappings:
+  - arn: arn:aws:iam::950274644703:role/root # kubectl edit configmap aws-auth -n kube-system
+    groups:                                  # edit to arn:aws:iam::950274644703:role/root -> arn:aws:iam::950274644703:root  
+      - system:masters
+    username: root-admin
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
+iam:
+  withOIDC: true
+  serviceAccounts:
+  - metadata:
+      name: aws-load-balancer-controller
+      namespace: kube-system
+    wellKnownPolicies:
+      awsLoadBalancerController: true
+
+managedNodeGroups:
+  - name: warm-app-ngA
+    labels: { app: nga }
+    instanceType: t3.small
+    instanceName: warm-app-node
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 20
+    privateNetworking: true
+    volumeType: gp2
+    volumeEncrypted: true
+    iam:
+      withAddonPolicies:
+        imageBuilder: true
+        awsLoadBalancerController: true
+        autoScaler: true
+
+cloudWatch:
+  clusterLogging:
+    # enable specific types of cluster control plane logs
+    enableTypes: ["*"]
+    # all supported types: "api", "audit", "authenticator", "controllerManager", "scheduler"
+    # supported special values: "*" and "all"    
+    # Sets the number of days to retain the logs for (see [CloudWatch docs](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutRetentionPolicy.html#API_PutRetentionPolicy_RequestSyntax)).
+    # By default, log data is stored in CloudWatch Logs indefinitely.
+    # logRetentionInDays: 60

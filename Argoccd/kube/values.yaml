@@ -1,0 +1,3 @@
+image:
+  repository: 950274644703.dkr.ecr.ap-northeast-2.amazonaws.com/wsc2024-ecr
+  tag: latest

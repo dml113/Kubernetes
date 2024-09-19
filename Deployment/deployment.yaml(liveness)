@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-deployment
+  labels:
+    app: nodejs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nodejs
+  template:
+    metadata:
+      labels:
+        app: nodejs
+    spec:
+      containers:
+        - name: nodejs
+          image: 950274644703.dkr.ecr.ap-northeast-2.amazonaws.com/skills-ecr:latest
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests:  # hpa 위해 설정
+              memory: 64Mi 
+              cpu: 250m
+            limits: 
+              memory: 128Mi
+              cpu:  500m # hpa 위해 설정
+      imagePullSecrets:
+        - name: regcred
+      restartPolicy: Always

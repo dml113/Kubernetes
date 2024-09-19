@@ -1,0 +1,13 @@
+apiVersion: vpcresources.k8s.aws/v1beta1
+kind: SecurityGroupPolicy
+metadata:
+  name: foo-webapp-security-group
+  namespace: dev
+spec:
+  podSelector: 
+    matchLabels:
+      app.kubernetes.io/name: foo-webapp
+  securityGroups:
+    groupIds:
+    - sg-04bfac281fc9246ec
+    - sg-055394114cec188b0

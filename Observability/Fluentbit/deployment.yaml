@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wsi-dpm
+  namespace: wsi-ns
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wsi-cnt
+  template:
+    metadata:
+      labels:
+        app: wsi-cnt
+    spec:
+      containers:
+      - name: wsi-cnt
+        image: ${data.aws_caller_identity.current.account_id}.dkr.ecr.ap-northeast-2.amazonaws.com/wsi-repo:latest
+        volumeMounts:
+        - name: applog
+          mountPath: /logs
+      - name: fluent-bit-cnt
+        image: fluent/fluent-bit:latest
+        volumeMounts:
+        - name: applog
+          mountPath: /logs
+        - name: log-volume
+          mountPath: /fluent-bit/etc
+        env:
+        - name: HOSTNAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+      volumes:
+      - name: applog
+        emptyDir: {}
+      - name: log-volume
+        configMap:
+          name: fluent-bit-config

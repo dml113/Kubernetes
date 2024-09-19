@@ -1,0 +1,53 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: go-ingress
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/actions.rule-path1: >-
+      {
+        "type": "fixed-response",
+        "fixedResponseConfig": {
+          "contentType": "application/json",
+          "statusCode": "403",
+          "messageBody": "{\"err\": \"Your not Administrator\", \"status_code\": 403}"
+        }
+      }
+    alb.ingress.kubernetes.io/conditions.test1: >
+      [{"field":"source-ip","sourceIpConfig":{"values":["13.209.210.94/32"]}}] # nat gateway 주소
+    alb.ingress.kubernetes.io/conditions.test2: >
+      [{"field":"source-ip","sourceIpConfig":{"values":["13.209.201.39/32"]}}] # nat gateway 주소
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /health
+            pathType: Prefix
+            backend:
+              service:
+                name: test1
+                port:
+                  name: use-annotation
+          - path: /health
+            pathType: Prefix
+            backend:
+              service:
+                name: test2
+                port:
+                  name: use-annotation
+          - path: /health
+            pathType: Prefix
+            backend:
+              service:
+                name: rule-path1
+                port:
+                  name: use-annotation
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: go
+                port:
+                  number: 8080

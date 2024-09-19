@@ -1,0 +1,36 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - apt-get update && apt-get install -y curl
+      - curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+      - chmod +x argocd
+      - mv argocd /usr/local/bin/
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 950274644703.dkr.ecr.ap-northeast-2.amazonaws.com
+      - REPOSITORY_URI=950274644703.dkr.ecr.ap-northeast-2.amazonaws.com/wsc2024-ecr
+      - TAG=$(date +%Y%m%d%H%M%S)
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - docker build -t wsc2024-ecr .
+      - docker tag wsc2024-ecr:latest $REPOSITORY_URI:$TAG
+      - docker tag wsc2024-ecr:latest $REPOSITORY_URI:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $REPOSITORY_URI:$TAG
+      - docker push $REPOSITORY_URI:latest
+      - echo $TAG > imageTag.txt
+      - echo Syncing with ArgoCD...
+      - argocd login aa758473b9bda4bd8a53eade7d1eb5a8-1013996199.ap-northeast-2.elb.amazonaws.com --username admin --password Skill53## --insecure
+      - argocd app set blue-green-app -p image.tag=$TAG
+      - argocd app sync blue-green-app
+artifacts:
+  files:
+    - imageTag.txt

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: foo-api
+  namespace: dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels: # https://kubernetes.io/ko/docs/concepts/overview/working-with-objects/common-labels/
+      app.kubernetes.io/name: foo-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: foo-api
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: topology.kubernetes.io/region
+                operator: In
+                values:
+                - us-east-1
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: topology.kubernetes.io/zone
+                operator: In
+                values:
+                - us-east-1a
+                - us-east-1b
+      containers:
+        - image: 242593025403.dkr.ecr.us-east-1.amazonaws.com/foo-api:v1
+          name: foo-api
+          ports:
+            - containerPort: 5000
+          resources:
+            limits:
+              cpu: 820m
+              memory: 1000Mi
+            requests:
+              cpu: 820m
+              memory: 1000Mi
+      terminationGracePeriodSeconds: 60

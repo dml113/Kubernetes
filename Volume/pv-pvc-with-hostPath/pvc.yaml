@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongodb-pvc # pvc 이름
+  namespace: wsscc2021 # pvc가 속할 namespace
+  # pvc는 namespace-level 리소스입니다.
+spec:
+  storageClassName: ""
+  # storageClassName을 ""(공백)으로 표시하면 이미 프로비저닝된 PV을 사용합니다.
+  # https://kubernetes.io/ko/docs/concepts/storage/storage-classes/
+  volumeMode: Filesystem
+  # Filesystem(default), Block
+  # Block을 선택하면, Raw Block Stroage로 사용할 수 있다.
+  resources:
+    requests:
+      storage: 100Mi
+  # PV 풀에서 특정 storage 용량을 요청합니다.
+  accessModes:
+    - ReadWriteOnce
+  # pv에 정의된 accessMode 중에서 선택합니다.
+  # RWO(ReadWriteOnece) : 단일 노드만이 읽기/쓰기용으로 볼륨을 마운트할 수 있다.
+  # ROX(ReadOnlyMany) : 다수 노드가 읽기용으로 마운트할 수 있다.
+  # RWX(ReadWriteMany) : 다수 노드가 읽기/쓰기용으로 볼륨을 마운트할 수 있다.
+  # selector:
+  #   matchLabels:
+  #     release: "stable"
+  # selector와 일치하는 PV에만 연결할 수 있습니다.

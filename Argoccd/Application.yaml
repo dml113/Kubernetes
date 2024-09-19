@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: blue-green-app
+  namespace: argocd
+spec:
+  destination:
+    name: ''
+    namespace: app
+    server: 'https://kubernetes.default.svc'
+  source:
+    path: kube
+    repoURL: >-
+      https://git-codecommit.ap-northeast-2.amazonaws.com/v1/repos/gwangju-application-repo
+    targetRevision: HEAD
+    helm:
+      valueFiles:
+        - values.yaml
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

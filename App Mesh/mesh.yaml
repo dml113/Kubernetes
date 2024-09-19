@@ -1,0 +1,12 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: Mesh
+metadata:
+  name: skills
+  namespace: skills
+spec:
+  namespaceSelector:
+    matchLabels:
+      mesh: skills
+  egressFilter:
+    type: ALLOW_ALL # Mesh에서 외부 통신 허용
+    # 차단하려면 DROP_ALL

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: efs-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sc  # storageclass name
+  resources:
+    requests:
+      storage: 5Gi  # EFS는 용량 제한이 없지만, PVC를 생성할 때는 K8S의 정책에 따라 반드시 제한을 설정해야 함.

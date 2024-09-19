@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubia-ingress-alb # ingress 이름
+  namespace: wsscc2021 # ingress가 속할 namespace
+  annotations:
+    kubernetes.io/ingress.class: alb
+    # AWS의 ALB를 ingress로 사용합니다.
+    # AWS의 ALB를 ingress로 생성하기 위해서는 사전에 load balacner controller를 시작해야합니다.
+    # https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/deploy/installation/
+    # 자세한 annotation은 아래의 페이지에서 참조합니다.
+    # https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/ingress/annotations/
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: 'ip' # servicerk cluster-ip 타입인 경우 ip로 지정해야합니다.
+    alb.ingress.kubernetes.io/load-balancer-name: kubia-ingress-alb # ALB 이름
+    alb.ingress.kubernetes.io/security-groups: kubia-ingress-alb-sg
+    alb.ingress.kubernetes.io/manage-backend-security-group-rules: 'true' # security-groups 옵션을 사용할 경우 같이 활성화합니다.
+    alb.ingress.kubernetes.io/healthcheck-path: /
+    alb.ingress.kubernetes.io/healthcheck-port: traffic-port # '8080' | traffic-port
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: '5'
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: '3'
+    alb.ingress.kubernetes.io/unhealthy-threshold-count: '3'
+    alb.ingress.kubernetes.io/healthy-threshold-count: '2' # minimum 2
+    alb.ingress.kubernetes.io/target-group-attributes: deregistration_delay.timeout_seconds=30
+    # external-dns.alpha.kubernetes.io/hostname: www.skill53.cloud
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix # Prefix | Exact
+            backend:
+              service:
+                name: kubia-svc-clusterip
+                port:
+                  number: 80 # nodeport가 아닌, 서비스 포트번호를 작성합니다.

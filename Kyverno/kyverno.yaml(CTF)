@@ -1,0 +1,24 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-labels
+spec:
+  validationFailureAction: enforce
+  rules:
+  - name: check-for-labels
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    exclude:
+        resources:
+          namespaces:
+            - kube-system
+            - kyverno
+    validate:
+      message: "Fuck you" # want error message
+      pattern:
+        metadata:
+          labels:
+            security.check: "good"  # pod에 security.check: "good"가 있으면 정상 생성

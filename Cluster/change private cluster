@@ -1,0 +1,1 @@
+eksctl utils update-cluster-endpoints --name=skills-cluster --private-access=true --public-access=false --approve

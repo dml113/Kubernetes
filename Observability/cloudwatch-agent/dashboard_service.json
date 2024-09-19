@@ -1,0 +1,143 @@
+{
+    "widgets": [
+        {
+            "height": 6,
+            "width": 6,
+            "y": 0,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "ContainerInsights", "pod_cpu_utilization", "PodName", "stress-api-v1", "ClusterName", "wss-workshop-eks-cluster", "Namespace", "app" ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-east-1",
+                "title": "cpu utilization",
+                "period": 60,
+                "yAxis": {
+                    "left": {
+                        "min": 0,
+                        "max": 100
+                    }
+                },
+                "stat": "Average",
+                "annotations": {
+                    "horizontal": [
+                        {
+                            "label": "Untitled annotation",
+                            "value": 70
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 0,
+            "x": 6,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "ContainerInsights", "pod_memory_utilization", "PodName", "stress-api-v1", "ClusterName", "wss-workshop-eks-cluster", "Namespace", "app" ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "title": "memory utilization",
+                "region": "us-east-1",
+                "period": 60,
+                "yAxis": {
+                    "left": {
+                        "min": 0,
+                        "max": 100
+                    }
+                },
+                "stat": "Average"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 0,
+            "x": 12,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "ContainerInsights", "pod_network_rx_bytes", "PodName", "stress-api-v1", "ClusterName", "wss-workshop-eks-cluster", "Namespace", "app" ],
+                    [ ".", "pod_network_tx_bytes", ".", ".", ".", ".", ".", "." ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-east-1",
+                "title": "network io",
+                "period": 60,
+                "stat": "Average"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 6,
+            "x": 12,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ "AWS/ApplicationELB", "TargetResponseTime", "TargetGroup", "targetgroup/k8s-app-stressap-2e48dc3905/ed4e71765ccd7032", "LoadBalancer", "app/wss-workshop-ext-alb/a4464ae7c92232a7", { "stat": "Average", "label": "avg" } ],
+                    [ "...", { "label": "p99" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-east-1",
+                "stat": "p99",
+                "period": 60,
+                "title": "response time"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 6,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "view": "timeSeries",
+                "metrics": [
+                    [ { "expression": "SUM(SEARCH(' {mynamespace,path,method} MetricName=HTTPRequests ', 'Sum', 60)) / 60", "id": "e1", "label": "rps", "region": "us-east-1" } ]
+                ],
+                "stacked": false,
+                "region": "us-east-1",
+                "period": 60,
+                "title": "requests per second"
+            }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 6,
+            "x": 6,
+            "type": "metric",
+            "properties": {
+                "metrics": [
+                    [ { "expression": "SUM(SEARCH(' {mynamespace,path,method} MetricName=HTTPRequests ', 'Sum', 60))", "id": "e1", "label": "HTTPRequests", "region": "us-east-1", "visible": false } ],
+                    [ { "expression": "SUM(SEARCH(' {mynamespace,path,method} MetricName=HTTP4xxErrors ', 'Sum', 60))", "id": "e2", "label": "HTTP4xxErrors", "region": "us-east-1", "visible": false } ],
+                    [ { "expression": "SUM(SEARCH(' {mynamespace,path,method} MetricName=HTTP5xxErrors ', 'Sum', 60))", "id": "e3", "label": "HTTP5xxErrors", "region": "us-east-1", "visible": false } ],
+                    [ { "expression": "e2/e1*100", "label": "HTTP4xxErrorRate", "id": "e4", "color": "#ffbb78", "region": "us-east-1" } ],
+                    [ { "expression": "e3/e1*100", "label": "HTTP5xxErrorRate", "id": "e5", "color": "#ff9896", "region": "us-east-1" } ]
+                ],
+                "view": "timeSeries",
+                "stacked": false,
+                "region": "us-east-1",
+                "period": 60,
+                "stat": "Average",
+                "yAxis": {
+                    "left": {
+                        "min": 0,
+                        "max": 100
+                    }
+                },
+                "title": "error rate"
+            }
+        }
+    ]
+}

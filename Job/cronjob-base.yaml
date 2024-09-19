@@ -1,0 +1,24 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: batch-job-every-fifteen-minutes # CronJob의 이름
+  namespace: wsscc2021 # CronJob이 속할 namespace
+spec:
+  schedule: "0,15,30,45 * * * *" # 실행 주기, CronExpression
+  jobTemplate: # CronJob에서 실행될 Job을 정의합니다.
+    spec:
+      template: # Job에서 실행될 Pod를 정의합니다.
+        metadata:
+          labels:
+            app.kubernetes.io/name: periodic-batch-job
+            # kubernetes 권장 레이블을 참조하면 좋습니다.
+            # https://kubernetes.io/ko/docs/concepts/overview/working-with-objects/common-labels/
+        spec:
+          restartPolicy: OnFailure
+          # 재시작 정책을 작성합니다.
+          # OnFailure, Always, Never 중 하나를 선택할 수 있으며, 기본값은 Always 입니다.
+          # Job의 경우 OnFailure를 통해 장애가 발생하였을 경우에만 재시작하는 것이 좋습니다.
+          # https://kubernetes.io/ko/docs/concepts/workloads/pods/pod-lifecycle/#%EC%9E%AC%EC%8B%9C%EC%9E%91-%EC%A0%95%EC%B1%85
+          containers:
+          - name: main
+            image: luksa/batch-job

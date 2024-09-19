@@ -1,0 +1,40 @@
+cluster=skills-cluster
+region=ap-northeast-2
+account=950274644703
+
+#OIDC 생성
+eksctl utils associate-iam-oidc-provider --cluster $cluster --approve --region $region
+
+#AWS Load Balancer Controller의 IAM 정책을 다운로드
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/install/iam_policy.json
+
+#다운로드 한 정책을 사용하여 IAM정책을 만듬
+aws iam create-policy \
+    --policy-name AWSLoadBalancerControllerIAMPolicy \
+    --policy-document file://iam_policy.json
+
+#생성한 정책을 사용하여 serviceaccount 생성
+eksctl create iamserviceaccount \
+  --cluster=$cluster \
+  --namespace=kube-system \
+  --name=aws-load-balancer-controller \
+  --role-name AmazonEKSLoadBalancerControllerRole \
+  --attach-policy-arn=arn:aws:iam::$account:policy/AWSLoadBalancerControllerIAMPolicy \
+  --approve \
+  --region=$region
+
+#eks-charts 리포지토리를 추가
+helm repo add eks https://aws.github.io/eks-charts
+
+#로컬 리포지토리를 업데이트
+helm repo update
+
+#Load Balancer Controller을 설치
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+  -n kube-system \
+  --set clusterName=$cluster \
+  --set serviceAccount.create=false \
+  --set serviceAccount.name=aws-load-balancer-controller 
+
+#잘 설치 되어 있는지 확인
+kubectl get deployment -n kube-system aws-load-balancer-controller

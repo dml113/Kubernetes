@@ -1,0 +1,11 @@
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: foo-api-pdb
+  namespace: dev
+spec:
+  minAvailable: 70%
+  maxUnavailable: 0
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: foo-api

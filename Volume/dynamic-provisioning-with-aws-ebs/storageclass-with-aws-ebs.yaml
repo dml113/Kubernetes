@@ -1,0 +1,23 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: aws-ebs-sc # StorageClass 이름
+provisioner: kubernetes.io/aws-ebs
+reclaimPolicy: Retain # default Delete
+# Retain : pvc가 삭제되어도 물리적 Volume은 삭제되지 않는다.
+# Delete : pvc가 삭제될 때 물리적 Volume도 삭제된다.
+# Recycle(Deprecated)
+allowVolumeExpansion: true # 볼륨 확장을 지원한다.
+volumeBindingMode: WaitForFirstConsumer
+# 동적 프로비저닝의 시작 시기를 제어한다.
+# Immediate : pvc가 생성될 때 물리적 volume이 프로비저닝된다.
+# WaitForFirstConsumer : pvc가 생성되고, pod에서 pvc를 처음 사용할 때 물리적 volume이 프로비저닝된다.
+# WaitForFirstConsumer를 사용하여 사용되지 않는 volume을 생성하지 않고, 비용을 절약할 수 있다.
+# mountOptions:
+#   - debug
+parameters:
+  type: gp2
+  # zones: us-east-1a, us-east-1b
+  # iopsPerGB: "10"
+  fsType: ext4
+  encrypted: "true"

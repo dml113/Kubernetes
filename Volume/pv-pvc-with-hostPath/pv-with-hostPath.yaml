@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongodb-pv # pv 이름
+  # pv는 cluster level의 리소스입니다.
+  # 따라서 namespace를 지정하건 안하건 동일하게 동작합니다.
+spec:
+  capacity: # pv의 사이즈를 설정합니다.
+    storage: 1Gi
+  accessModes: # pv의 접근 권한을 설정합니다. pvc를 생성할 때 이 중 하나를 선택해야합니다.
+    - ReadWriteOnce
+    - ReadOnlyMany
+  # RWO(ReadWriteOnece) : 단일 노드만이 읽기/쓰기용으로 볼륨을 마운트할 수 있다.
+  # ROX(ReadOnlyMany) : 다수 노드가 읽기용으로 마운트할 수 있다.
+  # RWX(ReadWriteMany) : 다수 노드가 읽기/쓰기용으로 볼륨을 마운트할 수 있다.
+  persistentVolumeReclaimPolicy: Retain
+  # Retain: default (Manually created PV)
+  # Delete: default (Dynamically provisioned PV)
+  # Recycle (Deprecated)
+  hostPath:
+    path: /tmp/mongodb # hostOS의 /tmp/mongodb를 volume으로 사용합니다.

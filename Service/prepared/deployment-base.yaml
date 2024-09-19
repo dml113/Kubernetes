@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubia-deployment # deployment 이름
+  namespace: wsscc2021 # deployment가 속할 namespace
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kubia
+      # Label Selector
+  template: # deployment에 속할 pod를 정의합니다.
+    metadata:
+      labels:
+        app.kubernetes.io/name: kubia
+        # deployment로 생성된 pod의 label을 정의합니다.
+        # kubernetes 권장 레이블을 참조하면 좋습니다.
+        # https://kubernetes.io/ko/docs/concepts/overview/working-with-objects/common-labels/
+    spec:
+      containers:
+      - image: luksa/kubia
+        name: main
+        ports:
+          - containerPort: 8080
+            protocol: TCP
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi

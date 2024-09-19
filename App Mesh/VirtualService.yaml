@@ -1,0 +1,35 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualService
+metadata:
+  name: nginx-static-virtual-service
+  namespace: skills
+spec:
+  awsName: nginx-static.skills.local
+  provider:
+    virtualRouter:
+      virtualRouterRef:
+        name: nginx-static-router
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualService
+metadata:
+  name: httpd-static-virtual-service
+  namespace: skills
+spec:
+  awsName: httpd-static.skills.local
+  provider:
+    virtualRouter:
+      virtualRouterRef:
+        name: httpd-static-router
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualService
+metadata:
+  name: main-static-virtual-service
+  namespace: skills
+spec:
+  awsName: main-static.skills.local
+  provider:
+    virtualRouter:
+      virtualRouterRef:
+        name: main-static-router

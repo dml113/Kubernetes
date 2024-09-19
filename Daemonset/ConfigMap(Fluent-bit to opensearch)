@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  namespace: default
+  labels:
+    app: fluent-bit
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Log_Level    debug
+
+    [INPUT]
+        Name         tail
+        Path         /var/log/pods/app_customer-*/customer-*/*.log
+        Tag          customer
+
+    [INPUT]
+        Name         tail
+        Path         /var/log/pods/app_product-*/product-*/*.log
+        Tag          product
+
+    [INPUT]
+        Name         tail
+        Path         /var/log/pods/app_order-*/order-*/*.log
+        Tag          order
+
+    [OUTPUT]
+        Name            opensearch
+        Match           customer
+        Host            search-skills-opensearch-domain-lgvzg5tqizatcsfo3mhd2mad74.ap-northeast-2.es.amazonaws.com
+        Port            443
+        HTTP_User       admin
+        HTTP_Passwd     Skill53##
+        Index           customer-%Y.%m.%d
+        tls             On
+        tls.verify      Off
+        Replace_Dots    On
+        Suppress_Type_Name On
+
+    [OUTPUT]
+        Name            opensearch
+        Match           product
+        Host            search-skills-opensearch-domain-lgvzg5tqizatcsfo3mhd2mad74.ap-northeast-2.es.amazonaws.com
+        Port            443
+        HTTP_User       admin
+        HTTP_Passwd     Skill53##
+        Index           product-%Y.%m.%d
+        tls             On
+        tls.verify      Off
+        Replace_Dots    On
+        Suppress_Type_Name On
+
+    [OUTPUT]
+        Name            opensearch
+        Match           order
+        Host            search-skills-opensearch-domain-lgvzg5tqizatcsfo3mhd2mad74.ap-northeast-2.es.amazonaws.com
+        Port            443
+        HTTP_User       admin
+        HTTP_Passwd     Skill53##
+        Index           order-%Y.%m.%d
+        tls             On
+        tls.verify      Off
+        Replace_Dots    On
+        Suppress_Type_Name On

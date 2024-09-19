@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluent-bit-config
+  namespace: wsi-ns
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Flush         1
+        Log_Level     debug        
+
+    [INPUT]
+        Name          tail
+        Path          /logs/app.log
+        Tag           wsi
+
+    [FILTER]
+        Name          parser
+        Match         wsi
+        Key_Name      log
+        Parser        daejeon-parser
+
+    [FILTER]
+        Name          lua
+        Match         wsi
+
+    [OUTPUT]
+        Name          cloudwatch_logs
+        Match         wsi
+        log_group_name /wsi/eks/log/
+        log_stream_name log-${HOSTNAME}
+        region         ap-northeast-2
+        auto_create_group On

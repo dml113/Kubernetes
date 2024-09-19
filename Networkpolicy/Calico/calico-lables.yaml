@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-specific-port
+spec:
+  podSelector: {} # 모든 Pod에 대해 적용
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: skills # skills 네임스페이스에 속한 Pod로부터 허용
+    - podSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: user # labels이 kubernetes.io/metadata.name: user를 가진 Pod로부터 허용
+  ports:
+  - port: 2222
+    protocol: TCP
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: skills # skills 네임스페이스의 Pod로 허용
+    - podSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: user # labels이 kubernetes.io/metadata.name: user를 가진 Pod로 허용
+  ports:
+  - port: 2222
+    protocol: TCP

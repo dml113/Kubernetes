@@ -1,0 +1,43 @@
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: apps
+spec:
+  requirements:
+    - key: "kubernetes.io/arch" # If not included, the webhook for the AWS Cloud Provider will default to amd64
+      operator: In
+      values: ["amd64"]
+    - key: "karpenter.sh/capacity-type"         # optional, set to on-demand by default, spot if both are listed
+      operator: In
+      values: ["on-demand"]
+  limits:
+    resources:
+      cpu: 4000                               # optional, recommended to limit total provisioned CPUs
+      memory: 8000Gi
+  providerRef:                                # optional, recommended to use instead of `provider`
+    name: apps-provider
+  taints:
+    - key: Management
+      value: Apps
+      effect: NoSchedule
+  ttlSecondsAfterEmpty: 300                    # optional, but never scales down if not set
+  # If omitted, the feature is disabled and nodes will never expire.  If set to less time than it requires for a node
+  # to become ready, the node may expire before any pods successfully start.
+  # ttlSecondsUntilExpired: 2592000        # 30 Days = 60 * 60 * 24 * 30 Seconds;
+---
+apiVersion: karpenter.k8s.aws/v1alpha1
+kind: AWSNodeTemplate
+metadata:
+  name: apps-provider
+spec:
+  amiFamily: Bottlerocket
+  subnetSelector:                             # required
+    karpenter.sh/discovery: unicorn-eks-cluster
+  securityGroupSelector:                      # required, when not using launchTemplate
+    karpenter.sh/discovery: unicorn-eks-cluster
+  blockDeviceMappings:
+    - deviceName: /dev/xvda
+      ebs:
+        volumeType: gp3
+        volumeSize: 20Gi
+        deleteOnTermination: true

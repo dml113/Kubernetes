@@ -1,0 +1,98 @@
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualRouter
+metadata:
+  name: nginx-static-router
+  namespace: skills
+spec:
+  awsName: nginx-static-virtual-router
+  listeners:
+    - portMapping:
+        port: 80
+        protocol: http
+  routes:
+    - name: nginx-static-route
+      httpRoute:
+        match:
+          prefix: "/nginx"
+        action:
+          weightedTargets:
+            - virtualNodeRef:
+                name: "nginx-static-frontend" # kuberntes의 virtualnode를 적어야함.
+              weight: 100
+        retryPolicy:
+          maxRetries: 2
+          perRetryTimeout:
+              unit: "ms"
+              value: 2000
+          httpRetryEvents:
+              - server-error
+              - client-error
+              - gateway-error
+
+---
+
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualRouter
+metadata:
+  name: httpd-static-router
+  namespace: skills
+spec:
+  awsName: httpd-static-virtual-router
+  listeners:
+    - portMapping:
+        port: 80
+        protocol: http
+  routes:
+    - name: httpd-static-route
+      httpRoute:
+        match:
+          prefix: "/httpd"
+        action:
+          weightedTargets:
+            - virtualNodeRef:
+                name: "httpd-static-frontend" # kuberntes의 virtualnode를 적어야함.
+              weight: 100
+        retryPolicy:
+          maxRetries: 2
+          perRetryTimeout:
+              unit: "ms"
+              value: 2000
+          httpRetryEvents:
+              - server-error
+              - client-error
+              - gateway-error
+
+---
+apiVersion: appmesh.k8s.aws/v1beta2
+kind: VirtualRouter
+metadata:
+  name: main-static-router
+  namespace: skills
+spec:
+  awsName: main-static-virtual-router
+  listeners:
+    - portMapping:
+        port: 80
+        protocol: http
+  routes:
+    - name: main-static-route
+      httpRoute:
+        match:
+          prefix: "/"
+        action:
+          weightedTargets:
+            - virtualNodeRef:
+                name: "nginx-static-frontend" # kuberntes의 virtualnode를 적어야함.
+              weight: 100
+            - virtualNodeRef:
+                name: "httpd-static-frontend" # kuberntes의 virtualnode를 적어야함.
+              weight: 100
+        retryPolicy:
+          maxRetries: 2
+          perRetryTimeout:
+              unit: "ms"
+              value: 2000
+          httpRetryEvents:
+              - server-error
+              - client-error
+              - gateway-error
