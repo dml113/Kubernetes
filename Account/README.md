@@ -1,7 +1,7 @@
 ### Set to your own value
 ``` sh
 cluster=skills-cluster
-policy=policy arn 입력
+policy=<policy arn>
 ```
 
 ### Create accound
