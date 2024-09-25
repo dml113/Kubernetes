@@ -12,8 +12,10 @@ chmod +x ./kubectl
 sudo mv ./kubectl /usr/bin/
 kubectl version --client
 ```
+- [☁️ kubectl reference site](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/install-kubectl.html)
 
-### helm 설치
+
+### helm install
 ```sh
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 ```
