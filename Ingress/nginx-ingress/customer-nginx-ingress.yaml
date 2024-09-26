@@ -1,0 +1,46 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-nginx
+  namespace: app
+  annotations:
+    # nginx.ingress.kubernetes.io/server-snippet: |
+    #   lua_need_request_body on;
+    #   access_by_lua_block {
+    #     local req_path = ngx.var.request_uri
+    #     local req_method = ngx.var.request_method
+
+    #     if req_path == "/v1/token" and req_method == "POST" then
+    #       ngx.req.read_body()
+    #       local body_data = ngx.req.get_body_data()
+    #       if body_data then
+    #         local cjson = require "cjson"
+    #         local body_json = cjson.decode(body_data)
+    #         if not body_json or body_json["length"] == nil then
+    #           ngx.status = ngx.HTTP_FORBIDDEN
+    #           ngx.say("403 Forbidden: 'length' field is missing or invalid")
+    #           ngx.exit(ngx.HTTP_FORBIDDEN)
+    #         end
+    #       else
+    #         ngx.status = ngx.HTTP_FORBIDDEN
+    #         ngx.say("403 Forbidden: No body")
+    #         ngx.exit(ngx.HTTP_FORBIDDEN)
+    #       end
+    #     end
+    #   }
+
+    # nginx.ingress.kubernetes.io/proxy-read-timeout: "1"
+    # nginx.ingress.kubernetes.io/proxy-send-timeout: "1"
+    # nginx.ingress.kubernetes.io/proxy-connect-timeout: "1"
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /v1/token
+            pathType: Prefix
+            backend:
+              service:
+                name: token-svc
+                port:
+                  number: 80
