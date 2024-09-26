@@ -1,3 +1,5 @@
+### Refernece site
+- [☁️ Taint reference site](https://kubernetes.io/ko/docs/concepts/scheduling-eviction/taint-and-toleration/)
 ### Effect 종류
 ```sh
 NoSchedule (포드를 스케줄링하지 않음)
