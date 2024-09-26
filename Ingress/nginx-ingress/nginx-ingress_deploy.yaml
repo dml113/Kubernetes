@@ -1,0 +1,49 @@
+controller:
+  configmap:
+    name: nginx-configuration
+  name: controller
+  kind: Deployment
+  dnsPolicy: ClusterFirst
+  replicaCount: 1
+  ingressClassByName: false
+  ingressClassResource:
+    name: nginx
+    enabled: true
+  scope:
+    enabled: false
+  config:
+    proxy-real-ip-cidr: 10.0.0.0/16
+    real-ip-header: "proxy_protocol"
+    use-proxy-protocol: "false"
+    allow-snippet-annotations: "true"
+
+  service:
+    enabled: true
+    type: LoadBalancer
+    externalTrafficPolicy: Cluster
+    annotations:
+      service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+      service.beta.kubernetes.io/aws-load-balancer-type: nlb
+      service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+      service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
+      service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+      service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "60"
+    external:
+      enabled: true
+    internal:
+      enabled: false
+  configMapNamespace: ""
+  tcp:
+    configMapNamespace: ""
+    annotations: {}
+  udp:
+    configMapNamespace: ""
+    annotations: {}
+  affinity: {}
+rbac:
+  create: true
+  scope: false
+serviceAccount:
+  create: true
+  name: ""
