@@ -14,7 +14,7 @@ vpc:
     private:
       private-a: { id: subnet-097bce92266f6b040 }
       private-b: { id: subnet-0a7b044813cf7a8f5 }
-      
+
 iamIdentityMappings:
   - arn: arn:aws:iam::950274644703:role/root # kubectl edit configmap aws-auth -n kube-system
     groups:                                  # edit to arn:aws:iam::950274644703:role/root -> arn:aws:iam::950274644703:root  
@@ -42,6 +42,31 @@ managedNodeGroups:
     privateNetworking: true
     volumeType: gp2
     volumeEncrypted: true
+    iam:
+      withAddonPolicies:
+        imageBuilder: true
+        awsLoadBalancerController: true
+        autoScaler: true
+    taints:
+      - key: "app-tier"
+        value: "frontend"
+        effect: "NoSchedule"
+
+  # Addon node group
+  - name: warm-addon-ngA
+    labels: { role: addon }
+    instanceType: t3.small
+    instanceName: warm-addon-node
+    desiredCapacity: 1
+    minSize: 1
+    maxSize: 10
+    privateNetworking: true
+    volumeType: gp2
+    volumeEncrypted: true
+    taints:
+      - key: "addon"
+        value: "true"
+        effect: "NoSchedule"
     iam:
       withAddonPolicies:
         imageBuilder: true
