@@ -16,7 +16,7 @@ refer
 2. Install Calico by creating the necessary custom resource. For more information on configuration options available in this manifest, see the installation reference [https://docs.tigera.io/calico/latest/reference/installation/api].
 
     ```bash
-    helm repo update
+    kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.2/manifests/custom-resources.yaml
     ```
 
 3. Confirm that all of the pods are running with the following command.
