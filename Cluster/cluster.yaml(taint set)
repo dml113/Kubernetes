@@ -34,7 +34,7 @@ iam:
 managedNodeGroups:
   - name: lee-app-ng
     labels: { app: nga }
-    instanceType: t3.small
+    instanceType: t3.medium
     instanceName: lee-app-node
     desiredCapacity: 2
     minSize: 2
@@ -55,7 +55,7 @@ managedNodeGroups:
   # Addon node group
   - name: lee-addon-ng
     labels: { role: addon }
-    instanceType: t3.small
+    instanceType: t3.medium
     instanceName: lee-addon-node
     desiredCapacity: 2
     minSize: 2
