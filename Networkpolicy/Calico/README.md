@@ -7,30 +7,21 @@ refer
 
 ## calico
 
-1. Install the Tigera Calico operator and custom resource definitions.
+1. Installing calico deployment.
 
     ```bash
-    kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.2/manifests/tigera-operator.yaml
+    kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
     ```
 
-2. Install Calico by creating the necessary custom resource. For more information on configuration options available in this manifest, see the installation reference [https://docs.tigera.io/calico/latest/reference/installation/api].
-
+2. Confirm that all of the pods are running with the following command.
     ```bash
-    kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.28.2/manifests/custom-resources.yaml
+    k get po -n kube-system
     ```
 
-3. Confirm that all of the pods are running with the following command.
+3. Install calicoctl
 
     ```bash
-    watch kubectl get pods -n calico-system
-    ```
-
-4. Remove the taints on the control plane so that you can schedule pods on it.
-
-    ```bash
-    kubectl taint nodes --all node-role.kubernetes.io/control-plane-
-    ```
-    It should return the following.
-    ```bash
-    node/<your-hostname> untainted
+    curl -L https://github.com/projectcalico/calico/releases/download/v3.24.5/calicoctl-linux-amd64 -o calicoctl
+    chmod 700 calicoctl
+    sudo mv calicoctl /usr/bin/
     ```
