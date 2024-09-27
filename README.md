@@ -10,7 +10,8 @@ eksctl version
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.29.0/2024-01-04/bin/linux/amd64/kubectl
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/bin/
-kubectl version --client
+sudo ln -s /usr/bin/kubectl /usr/local/bin/k
+k version --client
 ```
 - [☁️ kubectl reference site](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/install-kubectl.html)
 
