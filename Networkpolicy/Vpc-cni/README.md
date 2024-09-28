@@ -8,3 +8,8 @@ Please refer to official document
   ```bash
   kubectl set env daemonset aws-node -n kube-system ENABLE_PREFIX_DELEGATION=true
   ```
+### Enable Assign to pod as ipv6.
+  ```bash
+  kubectl set env daemonset aws-node -n kube-system ENABLE_IPv4=false
+  kubectl set env daemonset aws-node -n kube-system ENABLE_IPv6=true
+  ```
