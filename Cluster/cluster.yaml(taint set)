@@ -63,10 +63,7 @@ managedNodeGroups:
     privateNetworking: true
     volumeType: gp2
     volumeEncrypted: true
-    taints:
-      - key: "addon"
-        value: "true"
-        effect: "NoSchedule"
+
     iam:
       withAddonPolicies:
         imageBuilder: true
