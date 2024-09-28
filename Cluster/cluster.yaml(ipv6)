@@ -1,0 +1,82 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: lee-eks-cluster
+  version: "1.30"
+  region: ap-northeast-2
+
+kubernetesNetworkConfig:
+  ipFamily: IPv6
+
+addons:
+  - name: vpc-cni
+    version: latest
+  - name: coredns
+    version: latest
+  - name: kube-proxy
+    version: latest
+
+vpc:
+  subnets:
+    public:
+      public-a: { id: subnet-040b3d8db4b2baad1 }
+      public-b: { id: subnet-0f2dbb02e0992a2b4 }
+    private:
+      private-a: { id: subnet-0c3f21243a0322e44 }
+      private-b: { id: subnet-0af152646aee1ceeb }
+
+iamIdentityMappings:
+  - arn: arn:aws:iam::211125622661:user/student2 # kubectl edit configmap aws-auth -n kube-system
+    groups:                                  # edit to arn:aws:iam::950274644703:role/root -> arn:aws:iam::950274644703:root  
+      - system:masters
+    username: root-admin
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
+iam:
+  withOIDC: true
+  serviceAccounts:
+  - metadata:
+      name: aws-load-balancer-controller
+      namespace: kube-system
+    wellKnownPolicies:
+      awsLoadBalancerController: true
+
+managedNodeGroups:
+  - name: lee-app-ng
+    labels: { app: nga }
+    instanceType: t3.medium
+    instanceName: lee-app-node
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 20
+    privateNetworking: true
+    volumeType: gp2
+    volumeEncrypted: true
+    iam:
+      withAddonPolicies:
+        imageBuilder: true
+        awsLoadBalancerController: true
+        autoScaler: true
+    taints:
+      - key: "app-tier"
+        value: "frontend"
+        effect: "NoSchedule"
+
+  # Addon node group
+  - name: lee-addon-ng
+    labels: { role: addon }
+    instanceType: t3.medium
+    instanceName: lee-addon-node
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 10
+    privateNetworking: true
+    volumeType: gp2
+    volumeEncrypted: true
+
+    iam:
+      withAddonPolicies:
+        imageBuilder: true
+        awsLoadBalancerController: true
+        autoScaler: true
