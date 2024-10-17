@@ -59,7 +59,7 @@ refer
       --namespace=kube-system \
       --name=aws-load-balancer-controller \
       --role-name AmazonEKSLoadBalancerControllerRole \
-      --attach-policy-arn=arn:aws:iam::$account:policy/AWSLoadBalancerControllerIAMPolicy \
+      --attach-policy-arn=arn:aws:iam::$ACCOUNT_ID:policy/AWSLoadBalancerControllerIAMPolicy \
       --approve \
       --region=$REGION
     ```
