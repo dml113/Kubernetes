@@ -9,15 +9,15 @@ metadata:
 vpc:
   subnets:
     public:
-      public-a: { id: subnet-08feeab18840a1140 }
-      public-b: { id: subnet-074ce9b3bf2d720e9 }
+      public-a: { id: <PUBLIC_SUBNET_A_ID> }
+      public-b: { id: <PUBLIC_SUBNET_B_ID> }
     private:
-      private-a: { id: subnet-097bce92266f6b040 }
-      private-b: { id: subnet-0a7b044813cf7a8f5 }
+      private-a: { id: <PRIVATE_SUBNET_A_ID> }
+      private-b: { id: <PRIVATE_SUBNET_B_ID> }
 
 iamIdentityMappings:
-  - arn: arn:aws:iam::950274644703:role/root # kubectl edit configmap aws-auth -n kube-system
-    groups:                                  # edit to arn:aws:iam::950274644703:role/root -> arn:aws:iam::950274644703:root  
+  - arn: arn:aws:iam::<ACCOUNT_ID>:role/root
+    groups:
       - system:masters
     username: root-admin
     noDuplicateARNs: true # prevents shadowing of ARNs
