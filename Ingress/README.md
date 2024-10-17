@@ -64,20 +64,14 @@ refer
       --region=$REGION
     ```
 
-4. TargetGroupBinding CRDs 생성
-
-    ```bash
-    kubectl apply -k "github.com/aws/eks-charts/stable/aws-load-balancer-controller//crds?ref=master"
-    ```
-
-5. Helm - Repo 추가 
+4. Helm - Repo 추가 
 
     ```bash
     helm repo add eks https://aws.github.io/eks-charts
     helm repo update
     ```
 
-6. Helm - Install from chart
+5. Helm - Install from chart
 
     ```bash
     helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
@@ -100,7 +94,7 @@ refer
             --set tolerations\[0\].effect="NoSchedule"
         ```
 
-7. Subnet Tag 추가
+6. Subnet Tag 추가
 
     Subnet Discovery를 위해 Subnet에 태그를 추가합니다.
 
