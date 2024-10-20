@@ -1,3 +1,4 @@
+StorageClass VOLUMEBINDINGMODE에 따른 동작방식
 ``` sh
 StorageClass VOLUMEBINDINGMODE에는 WaitForFirstConsumer와 Immediate가 존재하는데,
 WaitForFirstConsumer를 사용한다면 pvc와 pod를 연결 및 생성하면 pv와 EBS volume 생성되지만,
