@@ -1,3 +1,6 @@
+## ArgoCD Annotation List
+- Refer[https://argocd-image-updater.readthedocs.io/en/stable/basics/update-strategies/]
+
 ## 1. Helm Repo Add 
 ```bash
 helm repo add argo https://argoproj.github.io/argo-helm
