@@ -31,3 +31,12 @@ istioctl install --set profile=demo
 ```bash
 kubectl label namespace <namespace name> istio-injection=enabled
 ```
+
+- Kiali Install
+  ``` bash
+  kubectl apply -f https://raw.githubusercontent.com/istio/istio/<istio-release-verison>/samples/addons/kiali.yaml
+  ```
+- Prometheus Install
+  ``` bash
+  kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.20/samples/addons/prometheus.yaml
+  ```
