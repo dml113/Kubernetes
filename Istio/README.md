@@ -6,17 +6,17 @@
 - [https://istio.io/latest/docs/setup/additional-setup/download-istio-release/]
 
 ```bash
-  curl -L https://istio.io/downloadIstio | sh -
+curl -L https://istio.io/downloadIstio | sh -
 ```
 
 ### 2. Move to the Istio package directory:
 ```bash
-  cd istio-1.23.3
+cd istio-1.23.3
 ```
 
 ### 3. Add the istioctl client to your path (Linux or macOS):
 ```bash
-  export PATH=$PWD/bin:$PATH
+export PATH=$PWD/bin:$PATH
 ```
 
 ## Setting Istio
@@ -24,7 +24,7 @@
 ### Refer
 - [https://istio.io/latest/docs/setup/additional-setup/config-profiles/]
 ```bash
-  istioctl install --set profile=demo
+istioctl install --set profile=demo
 ```
 
 ### 2. Add a namespace label to instruct Istio to automatically inject Envoy sidecar proxies when you deploy your application later:
