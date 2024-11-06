@@ -3,9 +3,8 @@
 ## Circuit Breaking Setting
 
 ### If you have enabled automatic sidecar injection, deploy the httpbin service:
-    ```bash
     kubectl apply -f samples/httpbin/httpbin.yaml
-    ```
+    
  - Otherwise, you have to manually inject the sidecar before deploying the httpbin application:
    ```bash
    kubectl apply -f <(istioctl kube-inject -f samples/httpbin/httpbin.yaml)
