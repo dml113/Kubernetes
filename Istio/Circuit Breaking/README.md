@@ -12,7 +12,6 @@
 ## Configuring the circuit breaker
 
 ### Create a destination rule to apply circuit breaking settings when calling the httpbin service:
-    ```bash
     kubectl apply -f - <<EOF
     apiVersion: networking.istio.io/v1
     kind: DestinationRule
@@ -33,4 +32,3 @@
           baseEjectionTime: 3m
           maxEjectionPercent: 100
     EOF
-    ```
