@@ -13,10 +13,16 @@ spec:
     - from:
         - namespaceSelector:
             matchLabels:
-              name: frontend
-        - podSelector:
+              kubernetes.io/metadata.name: frontend
+          podSelector:
             matchLabels:
               app: result
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: backend
+          podSelector:
+            matchLabels:
+              app: worker           
       ports:
         - protocol: TCP
           port: 5432
