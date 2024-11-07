@@ -10,12 +10,14 @@ refer
 1. Installing calico deployment.
 
     ```bash
-    kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+    k create ns tigera-operator
+    helm repo add projectcalico https://docs.tigera.io/calico/charts
+    helm install calico projectcalico/tigera-operator --version v3.28.0 --namespace tigera-operator
     ```
 
 2. Confirm that all of the pods are running with the following command.
     ```bash
-    k get po -n kube-system
+    k get po -n tigera-operator
     ```
 
 3. Install calicoctl
