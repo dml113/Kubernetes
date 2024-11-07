@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: app2
+  namespace: frontend
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - istio-system/my-app-gateway
+  http:
+  - match:
+    - port: 8081  # 8081 포트로 오는 요청 매칭
+    route:
+    - destination:
+        host: result.frontend.svc.cluster.local
+        port:
+          number: 8081  # NodePort 서비스에서 지정한 포트

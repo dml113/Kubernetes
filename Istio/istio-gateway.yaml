@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: my-app-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 8080  # app1 포트
+      name: http-app1
+      protocol: HTTP
+    hosts:
+    - "*" 
+  - port:
+      number: 8081  # app2 포트
+      name: http-app2
+      protocol: HTTP
+    hosts:
+    - "*"

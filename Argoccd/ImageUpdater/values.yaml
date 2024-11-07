@@ -1,0 +1,21 @@
+config:
+  argocd:
+    grpcWeb: true
+    serverAddress: "http://argocd-server.argocd"	# ArgoCD API Server 연결
+    insecure: true
+    plaintext: true
+  logLevel: debug
+  registries:	# ECR Registry 등록 (Docker hub 등 Public Registry는 불필요)
+    - name: ECR
+      api_url: "https://073813292468.dkr.ecr.ap-northeast-2.amazonaws.com"
+      prefix: "073813292468.dkr.ecr.ap-northeast-2.amazonaws.com"
+      ping: true
+      insecure: false
+      credentials: "ext:/scripts/auth1.sh"
+      credsexpire: 10h
+authScripts:
+  enabled: true
+  scripts:	# ECR 인증 Token을 얻는 스크립트
+    auth1.sh: |
+      #!/bin/sh
+      aws ecr --region ap-northeast-2 get-authorization-token --output text --query 'authorizationData[].authorizationToken' | base64 -d
