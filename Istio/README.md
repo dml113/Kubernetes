@@ -33,6 +33,11 @@ kubectl label namespace <namespace name> istio-injection=enabled
 ```
 
 ## Addon
+- All Addon Install
+  ```bash
+  kubectl apply -f samples/addons
+  ```
+
 - Kiali Install
   ``` bash
   kubectl apply -f https://raw.githubusercontent.com/istio/istio/<istio-release-verison>/samples/addons/kiali.yaml
