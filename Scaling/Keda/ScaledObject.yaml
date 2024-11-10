@@ -1,0 +1,25 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: nginx-scaled
+  namespace: keda
+spec:
+  scaleTargetRef:
+    name: nginx-deployment
+  minReplicaCount: 2
+  maxReplicaCount: 20
+  triggers:
+    - type: aws-cloudwatch
+      metadata:
+        namespace: AWS/SQS
+        dimensionName: QueueName
+        dimensionValue: "scaled-queue"
+        metricName: ApproximateNumberOfMessagesVisible
+        targetMetricValue: '1'
+        minMetricValue: '0'
+        awsRegion: "ap-northeast-2"
+        metricStat: "Sum"
+        metricUnit: "Count"
+        metricStatPeriod: '10'
+        metricCollectionTime: '30'
+        identityOwner: operator
