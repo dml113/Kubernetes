@@ -39,7 +39,7 @@ kubectl label namespace <namespace name> istio-injection=enabled
   ```
 - Jaeger Install
   ```bash
-  kubectl delete -f https://raw.githubusercontent.com/istio/istio/release-1.24/samples/addons/jaeger.yaml
+  kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.24/samples/addons/jaeger.yaml
   ```
 - Kiali Install
   ``` bash
