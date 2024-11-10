@@ -1,8 +1,4 @@
 # Keda Deploying with Helm
-## Install
-
-### Refer
--  [https://keda.sh/docs/2.14/scalers/]
 
 ### 1. Add Helm repo
   ```bash
@@ -20,3 +16,6 @@
      ```bash
      helm install keda kedacore/keda --namespace keda --set serviceAccount.operator.create=false --set serviceAccount.operator.name=keda-operator
      ```
+
+### Refer
+-  [https://keda.sh/docs/2.14/scalers/]
