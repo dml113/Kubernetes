@@ -1,6 +1,9 @@
 # Keda Deploying with Helm
 ## Install
 
+### Refer
+-  [https://keda.sh/docs/2.14/scalers/]
+
 ### 1. Add Helm repo
   ```bash
   helm repo add kedacore https://kedacore.github.io/charts
