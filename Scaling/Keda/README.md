@@ -13,4 +13,7 @@
   ```bash
   helm install keda kedacore/keda --namespace keda --create-namespace
   ```
-   - If your wn
+   - If your want custom serivceaccount:
+     ```bash
+     helm install keda kedacore/keda --namespace keda --set serviceAccount.operator.create=false --set serviceAccount.operator.name=keda-operator
+     ```
