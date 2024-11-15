@@ -7,5 +7,5 @@ Immediate를 사용한다면 pvc를 생성하면 pod를 생성하지 않아도 p
 
 ### To set the default stage class, refer to the command below
   ```sh
-  kubectl patch storageclass <sotrageClass Name> -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}
+  kubectl patch storageclass <sotrageClass Name> -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
   ```
