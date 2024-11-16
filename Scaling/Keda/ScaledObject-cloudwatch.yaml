@@ -2,7 +2,6 @@ apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: nginx-scaled
-  namespace: default
 spec:
   scaleTargetRef:
     name: nginx-deployment
