@@ -1,0 +1,25 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: result-scaled
+  namespace: frontend
+spec:
+  scaleTargetRef:
+    name: result
+  minReplicaCount: 1
+  maxReplicaCount: 10
+  triggers:
+    - type: aws-cloudwatch
+      metadata:
+        namespace: AWS/ELB
+        dimensionName: LoadBalancerName
+        dimensionValue: "afdeb70abc49a499c9eecc354e2eed7b"
+        metricName: RequestCount
+        targetMetricValue: '50000'
+        minMetricValue: '0'
+        awsRegion: "ap-northeast-2"
+        identityOwner: operator    
+        metricCollectionTime: '120'
+        metricStat: Sum                    
+        metricStatPeriod: '60'
+        metricUnit: Count
