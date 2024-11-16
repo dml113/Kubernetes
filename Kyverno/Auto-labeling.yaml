@@ -1,0 +1,22 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata: 
+  name: add-labels
+  namespace: skills
+spec: 
+  background: false
+  rules:
+  - name: add-pod-label
+    match:
+      resources:
+        kinds:
+        - Pod
+    exclude:
+      resources:
+        kinds:
+        - ClusterRole # Use exclude on kinds if needed
+    mutate: 
+      patchStrategicMerge:
+        metadata:
+          labels:
+            kyverno/user: "skills"
