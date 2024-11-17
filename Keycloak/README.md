@@ -17,7 +17,7 @@
 
 ### 3. Configure values.yaml
 ```bash
-  vi values.yaml
+vi values.yaml
 
 ...
 
