@@ -43,3 +43,8 @@ auth:
 
 ...
 ```
+
+### 4. Deploy Keycloak Helm Chart
+  ```bash
+  helm install keycloak bitnami/keycloak -f values.yaml --namespace keycloak
+  ```
