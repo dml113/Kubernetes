@@ -1,5 +1,11 @@
 # Keycloack Helm Chart Installation
 
+## When you erase and reinstall Helmchart, delete pvc directly using the command below:
+  ```bash
+  k get pvc -n <keycloak namespace>
+  k delete pvc data-keycloak-postgresql-0 -n <keycloak namespace> 
+  ```
+
 - Refer Site
   [https://artifacthub.io/packages/helm/bitnami/keycloak]
   [https://github.com/bitnami/charts.git]
