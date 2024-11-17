@@ -1,9 +1,22 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: circuit-breaker-for-the-entire-default-namespace
+  name: circuit-breaker-for-the-entire-vote
 spec:
-  host: "*.default.svc.cluster.local"  # This is the name of the k8s service that we're configuring
+  host: "vote.frontend.svc.cluster.local"  # This is the name of the k8s service that we're configuring
+
+  trafficPolicy:
+    outlierDetection: # Circuit Breaker 동작 기준 
+      maxEjectionPercent: 100 # 네트워크 차단 비율
+      consecutiveErrors: 2 # 연속적인 에러가 몇번까지 발생해야 Circuit Breaker가 동작할 것인지 
+      interval: 5s #연속적인 에러가 interval에서 지정한 시간 내에 발생할 때 Circuit Breaker가 동작
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: circuit-breaker-for-the-entire-result
+spec:
+  host: "result.frontend.svc.cluster.local"  # This is the name of the k8s service that we're configuring
 
   trafficPolicy:
     outlierDetection: # Circuit Breaker 동작 기준 
