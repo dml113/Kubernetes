@@ -46,5 +46,6 @@ auth:
 
 ### 4. Deploy Keycloak Helm Chart
   ```bash
+  k create ns keycloak
   helm install keycloak bitnami/keycloak -f values.yaml --namespace keycloak
   ```
