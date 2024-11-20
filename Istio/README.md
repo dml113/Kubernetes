@@ -11,7 +11,7 @@ curl -L https://istio.io/downloadIstio | sh -
 
 ### 2. Move to the Istio package directory:
 ```bash
-cd istio-1.23.3
+cd istio-1.24.0
 ```
 
 ### 3. Add the istioctl client to your path (Linux or macOS):
