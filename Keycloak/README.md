@@ -7,8 +7,7 @@
   ```
 
 - Refer Site
-  [https://artifacthub.io/packages/helm/bitnami/keycloak],
-  [https://github.com/bitnami/charts.git]
+  [https://artifacthub.io/packages/helm/bitnami/keycloak],     [https://github.com/bitnami/charts.git]
 
 ### 1. Keycloak Helm Repository add
   ```bash
