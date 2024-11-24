@@ -1,3 +1,7 @@
+### LB Readiness Create
+```bash
+kubectl label namespace <namespace> elbv2.k8s.aws/pod-readiness-gate-inject=enabled
+```
 
 ## 주의점
 
