@@ -10,6 +10,12 @@ This guide provides the steps for setting up the Amazon EBS CSI Driver on an Ama
 3. [Install Amazon EBS CSI Driver](#install-amazon-ebs-csi-driver)
 
 ---
+## Specify Variables
+```bash
+CLUSTER_NAME=eks-cluster
+REGION=ap-northeast-2
+ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
+```
 
 ## 1. Check Amazon EBS CSI Driver Versions
 
