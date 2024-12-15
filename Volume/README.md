@@ -48,7 +48,7 @@ eksctl create iamserviceaccount \
 Check that the IRSA has been created successfully
 
 ```bash
-eksctl get iamserviceaccount --cluster ${CLUSTER_NAME}
+eksctl get iamserviceaccount --cluster ${CLUSTER_NAME} --region ${REGION}
 ```
 
 ## 4. Install Amazon EBS CSI Driver
