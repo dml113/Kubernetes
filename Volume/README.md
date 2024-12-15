@@ -40,7 +40,7 @@ eksctl create iamserviceaccount \
   --attach-policy-arn arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy \
   --approve \
   --role-only \
-  --region ap-northeast-2 \
+  --region ${REGION} \
   --role-name AmazonEKS_EBS_CSI_DriverRole
 ```
 
@@ -58,6 +58,6 @@ Install the Amazon EBS CSI Driver as an EKS add-on, attaching the IAM role
 eksctl create addon --name aws-ebs-csi-driver \
   --cluster ${CLUSTER_NAME} \
   --service-account-role-arn arn:aws:iam::${ACCOUNT_ID}:role/AmazonEKS_EBS_CSI_DriverRole \
-  --region ap-northeast-2 \
+  --region ${REGION} \
   --force
 ```
