@@ -15,3 +15,7 @@ helm install bloxbox prometheus-community/prometheus-blackbox-exporter
     ```bash
      helm install bloxbox prometheus-community/prometheus-blackbox-exporter -n blackbox
     ```
+## Blackbox Add Target 
+```bash
+curl "blackbox-prometheus-blackbox-exporter.blackbox.svc.cluster.local:9115/probe?module=http_2xx&target=IP"
+```
