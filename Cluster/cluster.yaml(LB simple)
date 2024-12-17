@@ -3,7 +3,7 @@ kind: ClusterConfig
 
 metadata:
   name: warm-eks-clusterA
-  version: "1.30"
+  version: "1.31"
   region: ap-northeast-2
 
 vpc:
