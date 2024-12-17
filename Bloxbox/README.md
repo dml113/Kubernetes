@@ -11,7 +11,7 @@ helm repo update
 ```bash
 helm install bloxbox prometheus-community/prometheus-blackbox-exporter
 ```
-  - To install Prometheus in Prometheus Namespace:
+  - To install blackbox in blackbox Namespace:
     ```bash
      helm install bloxbox prometheus-community/prometheus-blackbox-exporter -n blackbox
     ```
