@@ -13,7 +13,7 @@ helm install bloxbox prometheus-community/prometheus-blackbox-exporter
 ```
   - To install blackbox in blackbox Namespace:
     ```bash
-     helm install bloxbox prometheus-community/prometheus-blackbox-exporter -n blackbox
+    helm install blackbox prometheus-community/prometheus-blackbox-exporter -n blackbox
     ```
 ## Blackbox Add Target 
 ```bash
