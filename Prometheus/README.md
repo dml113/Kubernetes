@@ -13,5 +13,5 @@ helm install prometheus prometheus-community/prometheus
 ```
   - To install Prometheus in Prometheus Namespace:
     ```bash
-     helm install prometheus prometheus-community/prometheus -n prometheus
+    helm install prometheus prometheus-community/prometheus -n prometheus
     ```
