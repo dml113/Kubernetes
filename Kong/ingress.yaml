@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kong-ing
+  namespace: wsi
+  annotations:
+    kubernetes.io/ingress.class: kong
+
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /v1/customer
+            pathType: Prefix
+            backend:
+              service:
+                name: customer-service
+                port:
+                  number: 80
+          - path: /v1/product
+            pathType: Prefix
+            backend:
+              service:
+                name: product-service
+                port:
+                  number: 80
+          - path: /v1/order
+            pathType: Prefix
+            backend:
+              service:
+                name: order-service
+                port:
+                  number: 80
