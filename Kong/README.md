@@ -1,4 +1,4 @@
-## Prometheus install with helm
+## Kong install with helm
 - refer site [https://artifacthub.io/packages/helm/prometheus-community/prometheus-blackbox-exporter]
 
 ### 1. Apply to Kong crd
