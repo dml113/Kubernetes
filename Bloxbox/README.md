@@ -9,7 +9,7 @@ helm repo update
 
 ### 2. Install Chart
 ```bash
-helm install bloxbox prometheus-community/prometheus-blackbox-exporter
+helm install blackbox prometheus-community/prometheus-blackbox-exporter
 ```
   - To install blackbox in blackbox Namespace:
     ```bash
