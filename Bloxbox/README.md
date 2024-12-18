@@ -1,4 +1,4 @@
-## Prometheus install with helm
+## Blackbox install with helm
 - refer site [https://artifacthub.io/packages/helm/prometheus-community/prometheus-blackbox-exporter]
 
 ### 1. Get Repository Info
