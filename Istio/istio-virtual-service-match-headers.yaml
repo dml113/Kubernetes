@@ -1,0 +1,29 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: a-virual-service
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - istio-system/ingress-gateway-configuration
+  http:
+    - match:
+        - headers:
+            wsi:
+              exact: a
+      route:
+        - destination:
+            host: a.a.svc.cluster.local
+            port:
+              number: 80
+
+    - match:
+        - headers:
+            wsi:
+              exact: b
+      route:
+        - destination:
+            host: b.b.svc.cluster.local
+            port:
+              number: 80
