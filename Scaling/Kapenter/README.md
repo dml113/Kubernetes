@@ -7,14 +7,15 @@ After setting up the tools, set the Karpenter and Kubernetes version:
     export KARPENTER_NAMESPACE="kube-system"
     export KARPENTER_VERSION="1.1.1"
     ```
-
-export CLUSTER_NAME="<CLUSTER_NAME>"
-export K8S_VERSION="1.31"
-export AWS_PARTITION="aws"
-export AWS_DEFAULT_REGION="ap-northeast-2"
-export AWS_ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
-export TEMPOUT="$(mktemp)"
-```
+Then set the following environment variable:    
+    ```sh
+    export CLUSTER_NAME="<CLUSTER_NAME>"
+    export K8S_VERSION="1.31"
+    export AWS_PARTITION="aws"
+    export AWS_DEFAULT_REGION="ap-northeast-2"
+    export AWS_ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
+    export TEMPOUT="$(mktemp)"
+    ```
 
 ### Karpenter Cloudformation Deploy
 ``` sh
