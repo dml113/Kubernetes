@@ -1,0 +1,18 @@
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: destination-rule
+  namespace: b
+spec:
+  host: b-site.com
+  trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
+  # workloadSelector:
+  #   matchLabels:
+  #     app: a
+  # trafficPolicy:
+  #   outlierDetection:
+  #     consecutive5xxErrors: 1
+  #     interval: 5m
+  #     baseEjectionTime: 15m
