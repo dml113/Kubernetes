@@ -1,16 +1,29 @@
-### Variable Define
-```sh
-CLUSTER_NAME=<cluster name>
-AWS_PARTITION="aws"
-AWS_REGION="$(aws configure list | grep region | tr -s " " | cut -d" " -f3)"
+# Getting Started with Karpenter
+- Refer Site [https://karpenter.sh/docs/getting-started/getting-started-with-karpenter/]
+
+### 1. Set environment variables
+After setting up the tools, set the Karpenter and Kubernetes version:
+    ```sh
+    export KARPENTER_NAMESPACE="kube-system"
+    export KARPENTER_VERSION="1.1.1"
+    ```
+
+export CLUSTER_NAME="<CLUSTER_NAME>"
+export K8S_VERSION="1.31"
+export AWS_PARTITION="aws"
+export AWS_DEFAULT_REGION="ap-northeast-2"
+export AWS_ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
+export TEMPOUT="$(mktemp)"
 ```
 
-### OIDC endpoint
+### Karpenter Cloudformation Deploy
 ``` sh
-OIDC_ENDPOINT="$(aws eks describe-cluster --name ${CLUSTER_NAME} \
-    --query "cluster.identity.oidc.issuer" --output text)"
-AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query 'Account' \
-    --output text)
+curl -fsSL https://raw.githubusercontent.com/aws/karpenter-provider-aws/v"${KARPENTER_VERSION}"/website/content/en/preview/getting-started/getting-started-with-karpenter/cloudformation.yaml  > "${TEMPOUT}" \
+&& aws cloudformation deploy \
+  --stack-name "Karpenter-${CLUSTER_NAME}" \
+  --template-file "${TEMPOUT}" \
+  --capabilities CAPABILITY_NAMED_IAM \
+  --parameter-overrides "ClusterName=${CLUSTER_NAME}"
 ```
 
 ### IAM Role 생성
