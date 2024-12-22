@@ -140,8 +140,3 @@ managedNodeGroups:
         imageBuilder: true
         externalDNS: true
         certManager: true
-        
-        
-aws configure
-# admin 권한     
-eksctl create cluster <cluster.yaml 위치>
