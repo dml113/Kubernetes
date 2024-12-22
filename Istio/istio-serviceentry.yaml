@@ -1,0 +1,26 @@
+apiVersion: networking.istio.io/v1
+kind: ServiceEntry
+metadata:
+  name: external-svc-wikipedia
+spec:
+  hosts:
+  - wikipedia.org
+  location: MESH_EXTERNAL
+  ports:
+  - number: 80
+    name: example-http
+    protocol: HTTP
+  resolution: DNS
+---
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: my-wiki-rule
+spec:
+  hosts:
+  - wikipedia.org
+  http:
+  - timeout: 5s
+    route:
+    - destination:
+        host: wikipedia.org
