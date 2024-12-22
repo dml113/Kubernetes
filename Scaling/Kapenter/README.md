@@ -7,6 +7,7 @@ After setting up the tools, set the Karpenter and Kubernetes version:
     export KARPENTER_NAMESPACE="kube-system"
     export KARPENTER_VERSION="1.1.1"
     ```
+    
 Then set the following environment variable:    
     ```sh
     export CLUSTER_NAME="<CLUSTER_NAME>"
