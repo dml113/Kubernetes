@@ -1,0 +1,104 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: ${CLUSTER_NAME}
+  version: ${K8S_VERSION}
+  region: ${REGION_CODE}
+  tags:
+    karpenter.sh/discovery: ${CLUSTER_NAME}
+
+vpc:
+  subnets:
+    public:
+      public-a: { id: ${PUBLIC_SUBNET_A} }
+      public-b: { id: ${PUBLIC_SUBNET_B} }
+    private:
+      private-a: { id: ${PRIVATE_SUBNET_A} }
+      private-b: { id: ${PRIVATE_SUBNET_B} }
+
+iamIdentityMappings:
+  - arn: arn:aws:iam::${ACCOUNT_ID}:role/root
+    groups:
+      - system:masters
+    username: root-admin
+    noDuplicateARNs: true # prevents shadowing of ARNs
+
+iam:
+  withOIDC: true
+  serviceAccounts:
+  - metadata:
+      name: aws-load-balancer-controller
+      namespace: kube-system
+    wellKnownPolicies:
+      awsLoadBalancerController: true
+  - metadata:
+      name: ebs-csi-controller-sa
+      namespace: kube-system
+    wellKnownPolicies:
+      ebsCSIController: true
+  - metadata:
+      name: karpenter
+      namespace: karpenter
+    attachPolicyARNs:
+      - arn:aws:iam::aws:policy/AmazonEKSClusterPolicy
+      - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser
+      - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+    roleOnly: true
+
+managedNodeGroups:
+  - name: app-ng
+    labels: { app: nga }
+    instanceType: t3.small
+    instanceName: app-node
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 20
+    amiFamily: Bottlerocket
+    privateNetworking: true
+    volumeType: gp2
+    volumeEncrypted: true
+    iam:
+      withAddonPolicies:
+        imageBuilder: true
+        awsLoadBalancerController: true
+        autoScaler: true
+
+  - name: addon-ng
+    labels: { app: addon }
+    instanceType: t3.small
+    instanceName: addon-node
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 20
+    amiFamily: Bottlerocket
+    privateNetworking: true
+    volumeType: gp2
+    volumeEncrypted: true
+    iam:
+      withAddonPolicies:
+        imageBuilder: true
+        awsLoadBalancerController: true
+        autoScaler: true
+        
+
+addons:
+  - name: aws-ebs-csi-driver
+    version: "latest"
+    serviceAccountRoleARN: arn:aws:iam::${ACCOUNT_ID}:role/ebs-csi-controller-sa
+  - name: eks-pod-identity-webhook
+    version: "latest"
+
+# Karpenter configuration
+karpenter:
+  enable: true
+  version: "latest"
+  createServiceAccount: true
+  serviceAccountName: karpenter
+  defaultProvisioner:
+    clusterName: ${CLUSTER_NAME}
+    limits:
+      resources:
+        cpu: 1000
+        memory: 1000Gi
+    ttlSecondsAfterEmpty: 30
