@@ -3,10 +3,10 @@
 
 ### 1. Set environment variables
 After setting up the tools, set the Karpenter and Kubernetes version:
-    ```sh
-    export KARPENTER_NAMESPACE="kube-system"
-    export KARPENTER_VERSION="1.1.1"
-    ```
+```sh
+export KARPENTER_NAMESPACE="kube-system"
+export KARPENTER_VERSION="1.1.1"
+```
     
 Then set the following environment variable:    
     ```sh
