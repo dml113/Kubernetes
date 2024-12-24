@@ -3,7 +3,7 @@ kind: ClusterConfig
 
 metadata:
   name: CLUSTER_NAME
-  version: K8S_VERSION
+  version: "K8S_VERSION"
   region: REGION_CODE
   tags:
     karpenter.sh/discovery: CLUSTER_NAME
