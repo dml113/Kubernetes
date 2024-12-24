@@ -88,17 +88,3 @@ addons:
     serviceAccountRoleARN: arn:aws:iam::ACCOUNT_ID:role/ebs-csi-controller-sa
   - name: eks-pod-identity-webhook
     version: "latest"
-
-# Karpenter configuration
-karpenter:
-  enable: true
-  version: "latest"
-  createServiceAccount: true
-  serviceAccountName: karpenter
-  defaultProvisioner:
-    clusterName: CLUSTER_NAME
-    limits:
-      resources:
-        cpu: 1000
-        memory: 1000Gi
-    ttlSecondsAfterEmpty: 30
