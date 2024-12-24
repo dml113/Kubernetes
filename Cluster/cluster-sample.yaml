@@ -2,23 +2,23 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: ${CLUSTER_NAME}
-  version: ${K8S_VERSION}
-  region: ${REGION_CODE}
+  name: CLUSTER_NAME
+  version: K8S_VERSION
+  region: REGION_CODE
   tags:
-    karpenter.sh/discovery: ${CLUSTER_NAME}
+    karpenter.sh/discovery: CLUSTER_NAME
 
 vpc:
   subnets:
     public:
-      public-a: { id: ${PUBLIC_SUBNET_A} }
-      public-b: { id: ${PUBLIC_SUBNET_B} }
+      public-a: { id: PUBLIC_SUBNET_A }
+      public-b: { id: PUBLIC_SUBNET_B }
     private:
-      private-a: { id: ${PRIVATE_SUBNET_A} }
-      private-b: { id: ${PRIVATE_SUBNET_B} }
+      private-a: { id: PRIVATE_SUBNET_A }
+      private-b: { id: PRIVATE_SUBNET_B }
 
 iamIdentityMappings:
-  - arn: arn:aws:iam::${ACCOUNT_ID}:role/root
+  - arn: arn:aws:iam::ACCOUNT_ID:role/root
     groups:
       - system:masters
     username: root-admin
@@ -85,7 +85,7 @@ managedNodeGroups:
 addons:
   - name: aws-ebs-csi-driver
     version: "latest"
-    serviceAccountRoleARN: arn:aws:iam::${ACCOUNT_ID}:role/ebs-csi-controller-sa
+    serviceAccountRoleARN: arn:aws:iam::ACCOUNT_ID:role/ebs-csi-controller-sa
   - name: eks-pod-identity-webhook
     version: "latest"
 
@@ -96,7 +96,7 @@ karpenter:
   createServiceAccount: true
   serviceAccountName: karpenter
   defaultProvisioner:
-    clusterName: ${CLUSTER_NAME}
+    clusterName: CLUSTER_NAME
     limits:
       resources:
         cpu: 1000
