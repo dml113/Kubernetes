@@ -10,6 +10,11 @@ export PUBLIC_SUBNET_B=<PUBLIC_SUBNET_B_NAME>
 export PRIVATE_SUBNET_A=<PRIVATE_SUBNET_A_NAME>
 export PRIVATE_SUBNET_B=<PRIVATE_SUBNET_B_NAME>
 
+sed -i "s/CLUSTER_NAME/$CLUSTER_NAME/g" cluster.yaml
+sed -i "s/K8S_VERSION/$K8S_VERSION/g" cluster.yaml
+sed -i "s/REGION_CODE/$REGION_CODE/g" cluster.yaml
+sed -i "s/ACCOUNT_ID/$ACCOUNT_ID/g" cluster.yaml
+
 sed -i "s/PUBLIC_SUBNET_A/$PUBLIC_SUBNET_A/g" cluster.yaml
 sed -i "s/PUBLIC_SUBNET_B/$PUBLIC_SUBNET_B/g" cluster.yaml
 sed -i "s/PRIVATE_SUBNET_A/$PRIVATE_SUBNET_A/g" cluster.yaml
