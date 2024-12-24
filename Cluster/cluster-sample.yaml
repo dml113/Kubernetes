@@ -86,5 +86,5 @@ addons:
   - name: aws-ebs-csi-driver
     version: "latest"
     serviceAccountRoleARN: arn:aws:iam::ACCOUNT_ID:role/ebs-csi-controller-sa
-  - name: eks-pod-identity-webhook
+  - name: eks-pod-identity-agent
     version: "latest"
