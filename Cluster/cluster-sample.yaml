@@ -64,22 +64,22 @@ managedNodeGroups:
         awsLoadBalancerController: true
         autoScaler: true
 
-  - name: addon-ng
-    labels: { app: addon }
-    instanceType: t3.small
-    instanceName: addon-node
-    desiredCapacity: 2
-    minSize: 2
-    maxSize: 20
-    amiFamily: Bottlerocket
-    privateNetworking: true
-    volumeType: gp2
-    volumeEncrypted: true
-    iam:
-      withAddonPolicies:
-        imageBuilder: true
-        awsLoadBalancerController: true
-        autoScaler: true
+#  - name: addon-ng
+#    labels: { app: addon }
+#    instanceType: t3.small
+#    instanceName: addon-node
+#    desiredCapacity: 2
+#    minSize: 2
+#    maxSize: 20
+#    amiFamily: Bottlerocket
+#    privateNetworking: true
+#    volumeType: gp2
+#    volumeEncrypted: true
+#    iam:
+#      withAddonPolicies:
+#        imageBuilder: true
+#        awsLoadBalancerController: true
+#        autoScaler: true
         
 
 addons:
