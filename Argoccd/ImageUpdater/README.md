@@ -1,6 +1,6 @@
 ## ArgoCD Annotation List
 ```bash
-- argocd-image-updater.argoproj.io/image-list: org/app=950274644703.dkr.ecr.ap-northeast-2.amazonaws.com/zero:latest
+- argocd-image-updater.argoproj.io/image-list: org/app=950274644703.dkr.ecr.ap-northeast-2.amazonaws.com/skills-repo/backend
 - argocd-image-updater.argoproj.io/org_app.update-strategy: latest or semver or digest
 - (option) argocd-image-updater.argoproj.io/org_app.pull-secret: ext:/scripts/auth1.sh
 ```
