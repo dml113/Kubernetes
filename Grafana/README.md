@@ -9,7 +9,7 @@ helm repo update
 
 ### 2. Install Chart
 ```bash
-helm install prometheus prometheus-community/prometheus
+helm install my-grafana grafana/grafana
 ```
   - To install Grafna in Grafana Namespace:
     ```bash
