@@ -1,4 +1,5 @@
 ## Argocd Install
+[https://arcozz.tistory.com/47]
 
 1. Argocd Install
     ```sh
