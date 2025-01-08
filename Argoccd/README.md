@@ -1,13 +1,11 @@
 ## Argocd Install
 
 ### 1. Argocd values.yaml create
-    ```sh
     cat <<EOF> values.yaml
     configs:
       params:
         server.insecure: true
     EOF
-    ```
 
 ### 2. Argocd cli install
     ```sh
