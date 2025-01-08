@@ -7,8 +7,8 @@ config:
   logLevel: debug
   registries:	# ECR Registry 등록 (Docker hub 등 Public Registry는 불필요)
     - name: ECR
-      api_url: "https://073813292468.dkr.ecr.ap-northeast-2.amazonaws.com"
-      prefix: "073813292468.dkr.ecr.ap-northeast-2.amazonaws.com"
+      api_url: "https://950274644703.dkr.ecr.ap-northeast-2.amazonaws.com"
+      prefix: "950274644703.dkr.ecr.ap-northeast-2.amazonaws.com"
       ping: true
       insecure: false
       credentials: "ext:/scripts/auth1.sh"
