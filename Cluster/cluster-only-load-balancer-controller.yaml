@@ -1,0 +1,50 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eks-clusterA
+  version: "1.31"
+  region: ap-northeast-2
+
+vpc:
+  subnets:
+    public:
+      public-a: { id: subnet-0f4e91b80864c53b6 }
+      public-b: { id: subnet-01c279bc3ab720d0c }
+    private:
+      private-a: { id: subnet-0900c1f146c3fd881 }
+      private-b: { id: subnet-01e67469899f71faa }
+
+iamIdentityMappings:
+  - arn: arn:aws:iam::950274644703:user/admin
+    groups:
+      - system:masters
+    username: root-admin
+    noDuplicateARNs: true
+
+iam:
+  withOIDC: true
+  serviceAccounts:
+  - metadata:
+      name: aws-load-balancer-controller
+      namespace: kube-system
+    wellKnownPolicies:
+      awsLoadBalancerController: true
+
+managedNodeGroups:
+  - name: app-ng
+    labels: { app: nga }
+    instanceType: t3.medium
+    instanceName: app-node
+    desiredCapacity: 2
+    minSize: 1
+    maxSize: 20
+    amiFamily: Bottlerocket
+    privateNetworking: true
+    volumeType: gp2
+    volumeEncrypted: true
+    iam:
+      withAddonPolicies:
+        imageBuilder: true
+        awsLoadBalancerController: true
+        autoScaler: true
