@@ -1,7 +1,5 @@
 ## CertManager install with helm
-- refer site
-- [https://cert-manager.io/docs/installation/helm/]
-- [https://repost.aws/ko/articles/ARfnl0vKM8QXKz1bUblFD1Tg]
+- refer site [https://cert-manager.io/docs/installation/helm/], [https://repost.aws/ko/articles/ARfnl0vKM8QXKz1bUblFD1Tg]
 
 ### 1. Get Repository Info
 ```bash
