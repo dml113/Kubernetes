@@ -9,10 +9,5 @@ helm repo update
 
 ### 2. Install Chart
 ```bash
-helm install \
-  cert-manager jetstack/cert-manager \
-  --namespace cert-manager \
-  --create-namespace \
-  --version v1.16.3 \
-  --set crds.enabled=true
+helm install cert-manager jetstack/cert-manager --namespace cert-manager --create-namespace --set installCRDs=true
 ```
