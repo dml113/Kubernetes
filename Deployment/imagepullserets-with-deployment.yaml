@@ -1,4 +1,3 @@
-# spec 밑에 imagePullSecrets를 작성한다.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
