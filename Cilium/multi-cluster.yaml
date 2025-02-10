@@ -1,0 +1,13 @@
+apiVersion: cilium.io/v2
+kind: CiliumClusterMesh
+metadata:
+  name: cilium-clustermesh
+spec:
+  clusterName: cluster-1
+  peers:
+    - name: cluster-2
+      endpoint:
+        address: "cluster-2.local:8080"
+        caCert: /etc/cilium/certs/cluster-2-ca.crt
+        cert: /etc/cilium/certs/cluster-2.crt
+        key: /etc/cilium/certs/cluster-2.key
