@@ -1,0 +1,27 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-http-and-grpc
+  namespace: default
+spec:
+  endpointSelector:
+    matchLabels:
+      app: frontend
+  ingress:
+  - fromEndpoints:
+      - matchLabels:
+          app: backend
+    toPorts:
+      - ports:
+          - port: "80"  # HTTP 트래픽
+        rules:
+          http:
+            - method: GET
+              path: "/api/*"
+  egress:
+  - toEndpoints:
+      - matchLabels:
+          app: backend
+    toPorts:
+      - ports:
+          - port: "50051"  # gRPC 트래픽
