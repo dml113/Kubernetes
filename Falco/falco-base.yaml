@@ -1,0 +1,38 @@
+# Falco 규칙의 조건을 설정하는 예시입니다. 각 조건의 사용 예와 설명을 주석으로 추가했습니다.
+
+- rule: Example Rule
+  desc: An example rule to demonstrate different conditions
+  condition: >
+    # 이벤트 타입이 execve인 경우 (프로세스 실행 이벤트)
+    (evt.type = execve) and
+
+    # 사용자 ID가 0인 경우 (root 권한으로 실행된 프로세스)
+    (user.uid = 0) and
+
+    # 프로세스 이름이 "bash"로 시작하는 경우
+    (proc.name startswith "bash") and
+
+    # 파일 디스크립터 이름이 "/etc"로 시작하는 경우
+    (fd.name startswith "/etc") and
+
+    # 네트워크 포트가 80인 경우 (HTTP 트래픽 감지)
+    (net.dport = 80) and
+
+    # 프로세스가 실행된 시간 기준으로 2021년 10월 10일 이후인 경우
+    (evt.time >= 1633843200000) and
+
+    # 특정 컨테이너에서 발생한 이벤트만 감지
+    (container.id = "abc123")
+
+  output: "Detected event matching conditions (event_type=%evt.type user=%user.name process=%proc.name container=%container.id)"
+  priority: WARNING
+  tags: [process, network, filesystem, container]
+
+# 각 조건의 예시:
+# 1. evt.type = execve: 프로세스 실행 이벤트 감지
+# 2. user.uid = 0: root 사용자로 실행된 프로세스 감지
+# 3. proc.name startswith "bash": "bash"로 시작하는 프로세스 감지
+# 4. fd.name startswith "/etc": "/etc" 디렉토리에서 열린 파일 감지
+# 5. net.dport = 80: 네트워크 포트 80에서의 트래픽 감지 (HTTP)
+# 6. evt.time >= 1633843200000: 특정 시간 이후의 이벤트 감지
+# 7. container.id = "abc123": 특정 컨테이너에서 발생한 이벤트 감지
