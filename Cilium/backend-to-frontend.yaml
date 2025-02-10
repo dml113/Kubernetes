@@ -1,0 +1,13 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-backend
+  namespace: default
+spec:
+  endpointSelector:
+    matchLabels:
+      app: backend  # 'backend' 앱에 대한 정책
+  ingress:
+  - fromEndpoints:
+    - matchLabels:
+        app: frontend  # 'frontend' 앱에서만 수신 허용
