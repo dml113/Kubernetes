@@ -1,0 +1,7 @@
+package k8salwaysdeny
+
+violation[{"reason": reason, "status": status_code}] {
+  1 > 0
+  reason := input.parameters.message
+  status_code := "403 Forbidden"
+}
