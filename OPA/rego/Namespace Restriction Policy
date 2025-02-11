@@ -1,0 +1,7 @@
+package k8snamespace
+
+violation[{"msg": msg}] {
+  namespace := input.review.object.metadata.namespace
+  not namespace == "allowed-namespace"
+  msg := "Resources can only be created in the allowed-namespace."
+}
