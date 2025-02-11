@@ -1,0 +1,8 @@
+package k8spodresources
+
+violation[{"msg": msg}] {
+  container := input.review.object.spec.containers[_]
+  not container.resources.requests.cpu
+  not container.resources.requests.memory
+  msg := "Containers must define CPU and Memory requests."
+}
