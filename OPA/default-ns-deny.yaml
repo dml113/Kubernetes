@@ -7,9 +7,6 @@ spec:
     spec:
       names:
         kind: K8sRequiredNamespace
-        listKind: K8sRequiredNamespaceList
-        plural: k8srequirednamespace
-        singular: k8srequirednamespace
   targets:
     - target: admission.k8s.gatekeeper.sh
       rego: |
