@@ -1,0 +1,9 @@
+package k8snodeport
+
+violation[{"msg": msg}] {
+  svc := input.review.object
+  svc.spec.type == "NodePort"
+  port := svc.spec.ports[_].port
+  port < 30000
+  msg := "NodePort must be in the range 30000-32767."
+}
