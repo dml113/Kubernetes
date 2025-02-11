@@ -1,0 +1,6 @@
+package k8spodsecurity
+
+violation[{"msg": msg}] {
+  not input.review.object.spec.securityContext.runAsUser
+  msg := "Pod must specify a runAsUser in the security context."
+}
