@@ -1,0 +1,11 @@
+package k8slabelsannotations
+
+violation[{"msg": msg}] {
+  not input.review.object.metadata.labels["env"]
+  msg := "Pods must have the 'env' label."
+}
+
+violation[{"msg": msg}] {
+  not input.review.object.metadata.annotations["owner"]
+  msg := "Pods must have the 'owner' annotation."
+}
