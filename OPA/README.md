@@ -1,19 +1,12 @@
 ## OPA install with helm
-- refer site [https://artifacthub.io/packages/helm/opa-kube-mgmt/opa-kube-mgmt]
+- refer site [https://www.sktenterprise.com/bizInsight/blogDetail/dev/2578]
 
 ### 1. Get Repository Info
 ```bash
-helm repo add opa https://open-policy-agent.github.io/kube-mgmt/charts
-helm repo update
+helm repo add gatekeeper https://open-policy-agent.github.io/gatekeeper/charts
 ```
 
 ### 2. Install Chart
 ```bash
-helm upgrade -i -n opa --create-namespace opa opa/opa-kube-mgmt
-```
-
-### (Option) You can download the bundle and inspect it yourself:
-```bash
-mkdir example && cd example
-curl -s -L https://www.openpolicyagent.org/bundles/kubernetes/admission | tar xzv
+helm install -n gatekeeper-system gatekeeper gatekeeper/gatekeeper --create-namespace
 ```
