@@ -1,0 +1,14 @@
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  name: my-service.default.svc.cluster.local
+spec:
+  routes:
+  - name: GET /api/v1/users
+    condition:
+      method: GET
+      pathRegex: /api/v1/users
+    retryPolicy:
+      retryOn: ["5xx"]
+      numRetries: 3
+      perTryTimeout: 500ms
