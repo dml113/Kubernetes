@@ -1,2 +1,2 @@
-## Installation site
+## Cilium Installation site
 - [https://docs.cilium.io/en/stable/installation/k8s-install-helm/]
