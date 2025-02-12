@@ -1,0 +1,28 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: <name>
+spec:
+  components:
+    - name: <component name>
+      type: <component type>
+      properties:
+        <parameter values>
+      traits:
+        - type: <trait type>
+          properties:
+            <traits parameter values>
+    - name: <component name>
+      type: <component type>
+      properties:
+        <parameter values>
+  policies:
+  - name: <policy name>
+    type: <policy type>
+    properties:
+      <policy parameter values>
+  workflow:
+    - name: <step name>
+      type: <step type>
+      properties:
+        <step parameter values>   
