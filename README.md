@@ -1,3 +1,5 @@
+https://sunset-squash-626.notion.site/Cloud-Computing-8ca99edf9ab345869a7248eb941e7210?pvs=4
+
 ### eksctl install
 ```sh
 curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
