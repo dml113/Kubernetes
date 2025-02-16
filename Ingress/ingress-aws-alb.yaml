@@ -22,6 +22,7 @@ metadata:
     alb.ingress.kubernetes.io/unhealthy-threshold-count: '3'
     alb.ingress.kubernetes.io/healthy-threshold-count: '2' # minimum 2
     alb.ingress.kubernetes.io/target-group-attributes: deregistration_delay.timeout_seconds=30
+    alb.ingress.kubernetes.io/group.name: "test"
     # external-dns.alpha.kubernetes.io/hostname: www.skill53.cloud
 spec:
   rules:
