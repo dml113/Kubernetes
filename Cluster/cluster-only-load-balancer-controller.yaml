@@ -3,7 +3,7 @@ kind: ClusterConfig
 
 metadata:
   name: eks-clusterA
-  version: "1.31"
+  version: "1.32"
   region: ap-northeast-2
 
 vpc:
