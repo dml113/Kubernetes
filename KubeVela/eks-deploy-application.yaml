@@ -1,0 +1,27 @@
+apiVersion: core.oam.dev/v1beta1
+kind: Application
+metadata:
+  name: first-vela-app  # 애플리케이션 이름
+spec:
+  components:
+    - name: express-server  # 컴포넌트(서비스) 이름
+      type: webservice  # KubeVela에서 제공하는 웹 서비스 타입 (Deployment + Service 자동 생성)
+      properties:
+        image: nginx  # 사용할 컨테이너 이미지 (Nginx)
+        ports:
+          - port: 80  # 컨테이너에서 사용할 포트
+            expose: true  # 외부에서 접근 가능하도록 노출 (Service 생성)
+
+  policies:
+    - name: target-eks  # 정책 이름
+      type: topology  # 배포 위치를 정하는 정책 (topology)
+      properties:
+        clusters: ["eks-clusterA"]  # 배포할 EKS 클러스터 이름
+        namespace: "default"  # 배포할 네임스페이스 (default)
+
+  workflow:
+    steps:
+      - name: deploy-to-eks  # 워크플로우 단계 이름
+        type: deploy  # 배포를 수행하는 단계
+        properties:
+          policies: ["target-eks"]  # target-eks 정책을 사용하여 배포
