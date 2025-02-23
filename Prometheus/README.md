@@ -15,3 +15,8 @@ helm install prometheus prometheus-community/prometheus
     ```bash
     helm install prometheus prometheus-community/prometheus -n prometheus
     ```
+
+  - To install kube prometheus stack:
+    ```bash
+     helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring
+    ```
