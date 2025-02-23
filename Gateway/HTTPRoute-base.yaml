@@ -1,0 +1,58 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: rollout-route
+spec:
+  parentRefs:
+  - name: rollout-gw
+  rules:
+  - matches:
+      - path:
+          type: PathPrefix
+          value: /app
+    filters:
+      - type: URLRewrite
+        urlRewrite:
+          path:
+            type: ReplaceFullPath
+            replaceFullPath: /
+    backendRefs:
+    - name: rollout-bluegreen-active
+      kind: Service
+      port: 80
+      
+  - matches:
+    - headers:
+      - type: Exact
+        name: referer
+        value: http://a70f1ad45be7e48f38ececd618eda03e-774232189.ap-northeast-2.elb.amazonaws.com/app
+    backendRefs:
+    - name: rollout-bluegreen-active
+      kind: Service
+      port: 80
+
+
+  - matches:
+      - path:
+          type: PathPrefix
+          value: /rollouts
+    # filters:
+    #   - type: URLRewrite
+    #     urlRewrite:
+    #       path:
+    #         type: ReplaceFullPath
+    #         replaceFullPath: /
+    backendRefs:
+    - name: argo-rollout-argo-rollouts-dashboard
+      kind: Service
+      port: 3100
+      
+  - matches:
+    - headers:
+      - type: RegularExpression
+        name: referer
+        value: http://a70f1ad45be7e48f38ececd618eda03e-774232189.ap-northeast-2.elb.amazonaws.com/rollouts.*
+    backendRefs:
+    - name: argo-rollout-argo-rollouts-dashboard
+      kind: Service
+      port: 3100
