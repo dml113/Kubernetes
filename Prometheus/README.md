@@ -20,3 +20,7 @@ helm install prometheus prometheus-community/prometheus
     ```bash
      helm install prometheus prometheus-community/kube-prometheus-stack --namespace monitoring
     ```
+    Add label to namespace:
+    ```bash
+    kubectl patch podmonitor aws-cni-metrics -n kube-system --type='merge' -p '{"metadata":{"labels":{"release":"prometheus"}}}'
+    ```
