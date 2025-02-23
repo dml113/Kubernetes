@@ -1,0 +1,10 @@
+dashboard:
+	enabled: true
+  replicas: 1
+  image:
+    # -- Registry to use
+    registry: quay.io
+    # --  Repository to use
+    repository: argoproj/kubectl-argo-rollouts
+    # -- Overrides the image tag (default is the chart appVersion)
+    tag: "v1.7.2" # tag부분 추가
