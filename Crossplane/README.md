@@ -1,5 +1,5 @@
 # Install Crossplane
-- Refer [https://docs.crossplane.io/latest/getting-started/provider-aws/]
+- Refer [https://docs.crossplane.io/latest/getting-started/provider-aws/, https://docs.crossplane.io/latest/concepts/managed-resources/]
 
 ## 1. Install the Crossplane Helm chart 
 ### Enable the Crossplane Helm Chart repository:
