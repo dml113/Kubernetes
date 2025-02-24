@@ -41,7 +41,7 @@
 
 ### Apply the YAML for the "Quote" service.
   ```bash
-` kubectl apply -f https://app.getambassador.io/yaml/v2-docs/3.9.1/quickstart/qotm.yaml
+  kubectl apply -f https://app.getambassador.io/yaml/v2-docs/3.9.1/quickstart/qotm.yaml
   ```
 
 ### Generates the YAML for a Mapping to tell Emissary-ingress to route all traffic inbound to the /backend/ path to the quote Service.
