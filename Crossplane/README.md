@@ -23,3 +23,29 @@
   aws_access_key_id = 
   aws_secret_access_key =
   ```
+
+
+### Use the --from-file= argument to set the value to the contents of the aws-credentials.txt file.
+  ```bash
+  kubectl create secret \
+  generic aws-secret \
+  -n crossplane-system \
+  --from-file=creds=./aws-credentials.txt
+  ```
+
+### Apply the ProviderConfig with the this Kubernetes configuration file:
+  ```bash
+  cat <<EOF | kubectl apply -f -
+  apiVersion: aws.upbound.io/v1beta1
+  kind: ProviderConfig
+  metadata:
+    name: default
+  spec:
+    credentials:
+      source: Secret
+      secretRef:
+        namespace: crossplane-system
+        name: aws-secret
+        key: creds
+  EOF
+  ```
