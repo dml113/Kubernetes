@@ -1,4 +1,4 @@
-# Linkerd Canary Deploy Guide
+# Linkerd Using Flagger Guide
 
 ##  Install Flagger 
 ###  To add Flagger to your cluster and have it configured to work with Linkerd, run:
