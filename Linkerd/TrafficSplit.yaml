@@ -1,12 +1,12 @@
 apiVersion: split.smi-spec.io/v1alpha2
 kind: TrafficSplit
 metadata:
-  name: my-app-split
-  namespace: default
+  name: backend-split
+  namespace: app
 spec:
-  service: my-app
+  service: backend-service
   backends:
-    - service: my-app-stable
-      weight: 80
-    - service: my-app-canary
-      weight: 20
+  - service: nginx-service
+    weight: 50
+  - service: httpd-service
+    weight: 50
