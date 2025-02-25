@@ -1,0 +1,29 @@
+apiVersion: flagger.app/v1beta1
+kind: Canary
+metadata:
+  name: nginx-canary
+  namespace: app
+spec:
+  provider: linkerd
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx-deployment
+  progressDeadlineSeconds: 60  # Canary 테스트 최대 시간
+  service:
+    port: 80
+  analysis:
+    interval: 1m  # 1분마다 검증
+    threshold: 5  # 5번 이상 실패하면 롤백
+    # maxWeight: 50  # Canary 트래픽 최대 50%까지 증가
+    # stepWeight: 10  # 매 단계마다 10%씩 Canary 트래픽 증가    
+    metrics:
+      - name: request-success-rate
+        thresholdRange:
+          min: 99  # 성공률이 99% 이상이어야 함
+        interval: 30s
+      - name: request-duration
+        thresholdRange:
+          max: 500  # 응답 시간이 500ms 이하
+        interval: 30s
+    stepWeight: 10  # 매 단계마다 10%씩 Canary 트래픽 증가
