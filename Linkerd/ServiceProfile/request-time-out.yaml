@@ -1,0 +1,17 @@
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  name: myapp.default.svc.cluster.local
+  namespace: default
+spec:
+  routes:
+    - name: "admin-route"
+      condition:
+        pathRegex: "/admin.*"
+      isRetryable: false  # /admin 경로는 재시도하지 않음
+      timeout: 500ms  # /admin 요청은 500ms 이내에 처리해야 함
+    - name: "user-route"
+      condition:
+        pathRegex: "/user.*"
+      isRetryable: true  # /user 경로는 재시도 가능
+      timeout: 1s  # /user 요청은 1초 이내에 처리해야 함
