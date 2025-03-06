@@ -12,9 +12,13 @@
     aws iam create-policy \
     --policy-name VPCLatticeControllerIAMPolicy \
     --policy-document file://recommended-inline-policy.json
+    
     export VPCLatticeControllerIAMPolicyArn=$(aws iam list-policies --query 'Policies[?PolicyName==`VPCLatticeControllerIAMPolicy`].Arn' --output text)
+    
     kubectl apply -f https://raw.githubusercontent.com/aws/aws-application-networking-k8s/main/files/controller-installation/deploy-namesystem.yaml
+    
     aws eks create-addon --cluster-name $CLUSTER_NAME --addon-name eks-pod-identity-agent --addon-version v1.0.0-eksbuild.1
+    
     cat >gateway-api-controller-service-account.yaml << GAT
     apiVersion: v1
     kind: ServiceAccount
