@@ -47,7 +47,7 @@ refer
 2. IAM - Policy 생성
 
     ```bash
-    curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/install/iam_policy.json
+    curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.11.0/docs/install/iam_policy.json
     ```
     ```bash
     aws iam create-policy \
