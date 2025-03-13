@@ -4,7 +4,7 @@ metadata:
   name: backend-split
   namespace: app
 spec:
-  service: backend-service
+  service: nginx-service
   backends:
   - service: nginx-service
     weight: 50
