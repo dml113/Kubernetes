@@ -22,15 +22,26 @@ cat > prometheus.values.yaml << EOF
 prometheus:
   prometheusSpec:
     thanos:
-      image: quay.io/thanos/thanos:v0.28.1
+	    image: quay.io/thanos/thanos:v0.28.1
       objectStorageConfig:
         name: thanos-objstore
         key: objstore.yml
+    externalLabels:
+      cluster: "cluster-A"
   thanosService:
     enabled: true
     clusterIP: ''
   thanosServiceMonitor:
     enabled: true
+grafana:
+  enabled: true
+  sidecar:
+    dashboards:
+      multicluster:
+        global:
+          enabled: true
+        etcd:
+          enabled: true
 EOF
 ```
 
