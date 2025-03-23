@@ -1,0 +1,15 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: eai-eks-cluster
+  region: ap-northeast-1
+  version: "1.32"
+  
+iam:
+  withOIDC: true # Required to use IAM roles for service accounts
+  podIdentityAssociations:
+    - namespace: istio-system # Namespace for Istio control plane
+      serviceAccountName: istiod # Istio's control plane service account
+      roleName: eai-eks-ecs-iam-role # Custom IAM role for Istio control plane with ECS access
+      permissionPolicyARNs: [arn:aws:iam::aws:policy/AmazonECS_FullAccess]
