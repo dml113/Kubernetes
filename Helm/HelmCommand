@@ -1,3 +1,0 @@
-helm install [relase name] [chart folder location]
-helm lint [relase name] ## chart가 정상적인지 검증
-helm template [chart folder location] # 어떻게 생성될지 보여줌(manifest)
