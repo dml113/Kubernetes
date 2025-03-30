@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: sqs-queue-scaler
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx-deploy
+  minReplicaCount: 2
+  maxReplicaCount: 10
+  triggers:
+  - type: aws-sqs-queueaws
+    metadata:
+      queueURL: https://sqs.ap-northeast-2.amazonaws.com/950274644703/s3-event-queue
+      awsRegion: ap-northeast-2
+      queueLength: "10"
+      awsEndpoint: https://sqs.ap-northeast-2.amazonaws.com
+      identityOwner: operator
