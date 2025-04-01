@@ -14,5 +14,5 @@ kubectl create namespace kyverno
 
 ### Install the Kyverno chart:
 ```
-helm install kyverno --namespace kyverno kyverno/kyverno
+helm install kyverno --namespace kyverno --create-namespace kyverno/kyverno
 ```
