@@ -1,4 +1,4 @@
-# Emissary-ingress quick start
+# External Secret quick start
 - Refer [https://artifacthub.io/packages/helm/external-secrets-operator/external-secrets]
 
 ## 1. Installation
